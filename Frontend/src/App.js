@@ -14,7 +14,6 @@ function App() {
         {/* making router */}
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/chats" element={<ChatPage />} />
-
       </Routes>
     </>
   );
