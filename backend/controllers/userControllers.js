@@ -1,4 +1,6 @@
-// controller is control data which is store
+
+// HERE we define all the routes of users routes
+
 
 // here we using asyncHandler need installation which handle all error bydefault
 const asyncHandler = require('express-async-handler');

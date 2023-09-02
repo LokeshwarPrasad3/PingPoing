@@ -12,6 +12,8 @@ const connectDB = require("./config/db");
 const chats = require('./data/data.js');
 // all the user authentication routes here
 const userRoutes = require('./routes/userRoutes');
+// all the chat operations here
+const chatRoutes = require('./routes/chatRoutes');
 // if user access unExisted path then show that 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
@@ -40,11 +42,12 @@ app.get('/', (req, res) => {
 // for routing that applies to multiple HTTP methods(GET, POST, PUT, DELETE, etc.).
 // When you use app.use() the middleware or route handler specified will be executed for any HTTP method and any request path that matches the provided path prefix.
 
-// Here is all the authenticate routes defined in userRoutes
+// Here is all the endpoint authenticate routes defined in userRoutes
 // add middleware if two parameter then (path, functionName) 
 app.use('/api/user', userRoutes);
 
-
+// create a new endpoint for chat operations
+app.use('/api/chat', chatRoutes);
 
 
 //👉 add error handling middleware if one parameter (functionNameOnly)

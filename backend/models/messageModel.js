@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        trim: true;
+        trim: true
     },
     chat: {
         type: mongoose.Schema.Types.ObjectId,
