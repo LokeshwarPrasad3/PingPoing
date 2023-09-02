@@ -26,7 +26,7 @@ const HomePage = () => {
 
         {/* this includes heading part */}
         <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center ">
-          <h1 className=' text-3xl font-semibold  opacity-80 tracking-wide' >Your-Chat-App</h1>
+          <h1 className=' text-3xl font-semibold  opacity-80 tracking-wide' >Your-Login-Page</h1>
         </div>
 
 

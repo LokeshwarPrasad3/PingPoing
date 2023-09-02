@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 // we need component and css 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// circular progress
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Signup = () => {
+
+    const navigate = useNavigate();
 
     // getting name
     const [name, setName] = useState('');
@@ -13,51 +21,112 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     // // getting  cpassword
     const [cpassword, setCPassword] = useState('');
+    // for picture data from cloudinary link
+    const [pic, setPic] = useState();
 
-    // getting login email and password
-    const [userDetail, setUserDetail] = useState([{ name: "", email: "", password: "", cpassword: "" }]);
+    // new state for loading to upload picture of user
+    const [loading, setLoading] = useState(false);
 
 
-    // when userDetails state update then print new value
-    useEffect(() => {
-        console.log(userDetail);
-    }, [userDetail]);
-
-    // when clicked to sign up then handle
-    const handleSignup = (e) => {
-        // our page is not refresh so
-        e.preventDefault();
-        // check all is valid  or not
-        if(name && email && password && cpassword){
-            // update from previous data
-            setUserDetail((prevData)=> ({
-                ...userDetail,
-                name, email, password, cpassword 
-            }))
-            console.log(userDetail);
-            toast.success("Signup Successfully");
-            // now emptpy all values
-            setName("");
-            setEmail("");
-            setPassword("");
-            setCPassword("");
-        }else
-        toast.warn("Enter Right Values");
-    }
 
 
     // when clicked to choose file for image then handle that
-    const postDeatail = () => {
+    const postDetail = (pic) => { // pics have all info of image (name,size,type)
+        // when upload picture then load button
+        setLoading(true); // when loading starts
+        // if pics is undefined then popup error
+        if (pic === undefined) {
+            toast.warn("Please Select an Image");
+            return; // no move forward
+        }
+        // if type is jpeg and png only
+        if ((pic.type === "image/jpeg") || (pic.type === "image/png")) {
 
+            // we need data to send on cloudinary api using formData
+
+            const data = new FormData();
+
+            // FormData JS object used for data format when sending body in HTTP requests, 
+            // often used in web applications for tasks like file uploads.
+
+            data.append("file", pic);
+            data.append("upload_preset", "chat-app");
+            data.append("cloud_name", "chatappcloud");
+
+            // upload that data in cloudinary api using post method 
+            fetch("https://api.cloudinary.com/v1_1/chatappcloud/image/upload", {
+                //adding body method in headers
+                method: 'post', body: data
+            })
+                .then((res) => res.json()) //data fetched
+                .then((data) => {
+                    // console.log(data) // actual data of response
+                    console.log(data.url);
+                    setPic(data.url.toString());
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    console.log("Error during Fetching Pic data", err);
+                    setLoading(false);
+                })
+        } else {
+            toast.warn("Please select image");
+            setLoading(false);
+            return;
+        }
     }
 
 
     // toggle password value
-    const [showPass, setShowPass] = useState(true);
+    const [showPass, setShowPass] = useState(false);
     const toggleShow = (e) => {
         e.preventDefault();
         setShowPass(!showPass);
     }
+
+
+    // when clicked to sign up then handle
+    const handleSignup = async (e) => {
+
+        e.preventDefault();
+        // set loading is true
+        setLoading(true);
+
+        // check all is valid  or not
+        if (!name || !email || !password || !cpassword || !pic) {
+            toast.warn("Please Fill All Fields");
+            setLoading(false);
+            return;
+        }
+
+        // check password === cpassword
+        if (password !== cpassword) {
+            toast.warn("Please Fill All Fields");
+            setLoading(false);
+            return;
+        }
+
+        try {
+            // make headers
+            const config = {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }
+            const { data } = await axios.post('./api/user', { name, email, password, pic }, config);
+            toast.success("Registration is successfull");
+            // set in localStorage
+            localStorage.setItem('userInfo', JSON.stringify(data));
+            setLoading(false);
+            // navigate to chat section successfully done
+            navigate('/chats');
+        }
+        catch (error) {
+            toast.error("Error Occured");
+            setLoading(false);
+        }
+    }
+
 
 
     return (
@@ -113,7 +182,8 @@ const Signup = () => {
                     <label htmlFor="create_input_picture" className='text-xl  font-[600] opacity-70'>Upload Your Picture </label>
                     {/* only accept image */}
                     <input type="file" accept='image/*'
-                        onChange={(e) => postDeatail(e.target.files[0])}
+                        // send image to db using cloudinary
+                        onChange={(e) => postDetail(e.target.files[0])}
                         name="create_input_picture" id="create_input_picture" className='py-1 px-3 w-full bg-gray-100' placeholder='Confirm Password' />
                 </div>
 
@@ -122,7 +192,16 @@ const Signup = () => {
                     <button
                         // signup button
                         onClick={handleSignup}
-                        className='bg-blue-600 w-full py-[5px] rounded opacity-90 text-white text-xl hover:bg-blue-700 text-opacity-90 ' >Sign Up</button>
+                        disabled={loading}
+                        className='bg-blue-600 w-full py-[5px] rounded opacity-90 text-white text-xl hover:bg-blue-700 text-opacity-90 '
+                    >
+                        {/* button content is changing when upload image */}
+                        {loading ?
+                            (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <CircularProgress color="inherit" size={28} />
+                            </Box>
+                            ) : ('Sign Up')}
+                    </button>
                 </div>
 
             </form>

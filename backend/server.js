@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 // getting port no from env file
 const PORT = process.env.PORT || 5000;
+const cors = require('cors');
 // getting db connection
 const connectDB = require("./config/db");
 // require some data of chats
@@ -14,6 +15,7 @@ const userRoutes = require('./routes/userRoutes');
 // if user access unExisted path then show that 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
+
 // connect to db call
 connectDB();
 // make instance of express variable
@@ -21,10 +23,13 @@ const app = express();
 // we getting json values from frontend so need to tell server to accept that json data
 app.use(express.json()); // to accept json data
 
+// using cors  from prevent any error
+app.use(cors());
+
 
 // make first server
 app.get('/', (req, res) => {
-    res.send("API IS RUNNING"); 
+    res.send("API IS RUNNING");
 })
 
 
@@ -33,6 +38,7 @@ app.get('/', (req, res) => {
 // for routing that applies to multiple HTTP methods(GET, POST, PUT, DELETE, etc.).
 // When you use app.use() the middleware or route handler specified will be executed for any HTTP method and any request path that matches the provided path prefix.
 
+// Here is all the authenticate routes defined in userRoutes
 // add middleware if two parameter then (path, functionName) 
 app.use('/api/user', userRoutes);
 

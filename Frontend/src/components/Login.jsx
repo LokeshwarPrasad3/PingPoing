@@ -1,48 +1,71 @@
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
 // we need component and css 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// circular progress
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate();
 
     // getting login email
     const [email, setEmail] = useState('');
     // getting login password
     const [password, setPassword] = useState('');
 
-    // getting login email and password
-    // eslint-disable-next-line
-    const [userDetail, setUserDetail] = useState({ email: "", password: "" });
-
+    // new state for loading to upload picture of user
+    const [loading, setLoading] = useState(false);
 
     // toggle password value
-    const [showPass, setShowPass] = useState(true);
+    const [showPass, setShowPass] = useState(false);
     const toggleShow = (e) => {
         e.preventDefault();
         setShowPass(!showPass);
     }
 
-
-    // when userDetails  state update then print new value
-    useEffect(() => {
-        console.log(userDetail);
-    }, [userDetail]);
-
     // handle login when clicked loginbutton
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        if (email && password) {
-            setUserDetail((prevDetails) => ({
-                ...prevDetails,
-                email: email,
-                password: password
-            }));
-            toast.success("Login Successfully");
+        setLoading(true);
+        // check values empty 
+        if (!email || !password) {
+            toast.warn("Please fill All Inputs");
+            setLoading(false);
+            return;
+        }
+        // if all values is filled
+        try {
+            // making headers inside the config
+            const config = {
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+            }
+            // post on api /login
+            const { data } = await axios.post('/api/user/login', { email, password }, config);
+            toast.success('Successfully Login', {
+                autoClose: 2000,
+            });
+            console.log(data);
+
+            // make empty values of input fields
             setEmail("");
             setPassword("");
-        } else {
-            toast.warn("Please enter valid input");
+            
+            setTimeout(()=>{
+               setLoading(false);  
+               // navigate to chat section successfully done
+               navigate('/chats');
+            },3000);
+        } catch (error) {
+            toast.error("Invalid User");
+            setLoading(false);
         }
+
     }
 
 
@@ -74,7 +97,14 @@ const Login = () => {
                 <div className="button_box flex flex-col justify-center py-4 items-center gap-4">
                     <button
                         onClick={handleLogin}
-                        className='bg-blue-600 w-full py-[5px] rounded opacity-90 text-white text-xl hover:bg-blue-700 text-opacity-90 ' >Login</button>
+                        className='bg-blue-600 w-full py-[5px] rounded opacity-90 text-white text-xl hover:bg-blue-700 text-opacity-90 ' >
+                        {/* button content is changing when upload image */}
+                        {loading ?
+                            (<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <CircularProgress color="inherit" size={28} />
+                            </Box>
+                            ) : ('Login')}
+                    </button>
                     <button className='bg-red-600 w-full py-[5px] rounded opacity-90 text-white text-xl hover:bg-red-700 text-opacity-90 ' >Get Guest User Credential</button>
                 </div>
                 {/* get guest user credentials */}
@@ -83,6 +113,7 @@ const Login = () => {
 
             {/* the toastify alert is added here */}
             <ToastContainer />
+
         </>
     )
 }
