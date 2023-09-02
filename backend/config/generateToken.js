@@ -7,12 +7,12 @@
 const jwt = require('jsonwebtoken');
 
 // getting secret key from .env
-const SECRET_KEY = process.env.SECRET_KEY;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // making method which generate jwt
 const generateToken = (id) => {
     // Using sign method to generate token 
-    return jwt.sign({ id }, SECRET_KEY, { // taking two object {userId : secretKey}, {expiryIn : 'days'}
+    return jwt.sign({ id }, JWT_SECRET, { // taking two object {userId : secretKey}, {expiryIn : 'days'}
         expiresIn: '30d'
     });
 };

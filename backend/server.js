@@ -33,6 +33,8 @@ app.get('/', (req, res) => {
 })
 
 
+// WE ONLY MAKE END POINT IN SERVER.js and we elaborate in different section for readable code
+
 //👉 app.use() general purpose routing method in Express. using for add middleware functions 
 //👉 app.use() is often used for middleware functions authentication middleware 
 // for routing that applies to multiple HTTP methods(GET, POST, PUT, DELETE, etc.).
@@ -41,6 +43,9 @@ app.get('/', (req, res) => {
 // Here is all the authenticate routes defined in userRoutes
 // add middleware if two parameter then (path, functionName) 
 app.use('/api/user', userRoutes);
+
+
+
 
 //👉 add error handling middleware if one parameter (functionNameOnly)
 // It's usually placed at the end of your route handlers to catch any unmatched requests.
