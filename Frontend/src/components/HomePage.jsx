@@ -1,23 +1,40 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Login from './Login';
 import Signup from './Signup';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
 const HomePage = () => {
+  // using for navigatin in any route
+  const navigate = useNavigate();
 
-  // if login then true and create then false
+  // Show login and create user when user toggle
   const [toggleMode, setToggleMode] = useState(true);
 
-  //PreDefine Material Component code to changing tabs code
+  //PreDefine Material Component code to changing tabs of login and create user
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+   
+
+  // IF user is logged in then push to /chat route
+  useEffect(() => {
+    // get logged user data from localStorage and setUser
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    setUser(userInfo);
+
+    // if user is not logged in redirected to login poage
+    if (!userInfo) {
+      navigate("/chat");
+    }
+  }, [navigate]); // dependency navigate change then call
 
   return (
     <>

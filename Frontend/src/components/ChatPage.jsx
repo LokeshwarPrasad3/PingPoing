@@ -1,46 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import React from 'react'
 
-
+// import ChatState which get context API
+import { ChatState } from '../Context/ChatProvider';
 
 const ChatPage = () => {
-
-    // state to store fetched data
-    const [chats, setChats] = useState([]);
-
-
-    const fetchChats = async () => {
-        try {
-            const { data } = await axios.get('/api/chat');
-            setChats(data);
-            console.log("Fetched data:", data);
-            console.log("Updated chats:", chats);
-        } catch (error) {
-            console.error("Error fetching chats:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchChats();
-        // eslint-disable-next-line
-    }, []);
-
-
-
+    // Get (ChatState) method which is return Context
+    const { user } = ChatState(); // desctruture user
 
 
     return (
         <>
-            {
-                chats.map((element) => {
-                    return (
-                        <div key={element._id} >
-                            <h1 className='text-white text-xl' >{element.chatName}</h1>
-                        </div>
-                    )
-
-                })
-            }
 
         </>
     )
