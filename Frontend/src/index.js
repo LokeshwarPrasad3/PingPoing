@@ -11,12 +11,12 @@ import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* ChatProvider is Context which give Current user details */}
-    <ChatProvider>
-      {/* add BrowserRouter to use React-Router */}
-      <BrowserRouter >
+    {/* Very Imp BrowserRouter to use React-Router */}
+    <BrowserRouter >
+      {/* ChatProvider is Context which give Current user details */}
+      <ChatProvider>
         <App />
-      </BrowserRouter>
-    </ChatProvider>
+      </ChatProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

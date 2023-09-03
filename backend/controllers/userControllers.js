@@ -13,7 +13,7 @@ const generateToken = require('../config/generateToken');
 // if we use asyncHandler then no need to handle try-catch async-handler is handle all 
 const registerUser = asyncHandler(async (req, res) => {
 
-    const { name, email, password, picture } = req.body;
+    const { name, email, password, pic } = req.body;
     // if any field undefined then give error
     if (!name || !email || !password) {
         res.status(400).json({ message: "Please enter all the fields" }); // .message("Please fill al fields")
@@ -28,7 +28,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
     // if unique user then create and saved (not need to .save() extra method)
     const user = await User.create({
-        name, email, password, picture
+        name, email, password, pic
     })
     // if successfully created
     if (user) {
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             password: user.password,
-            picture: user.picture,
+            pic: user.pic,
             // the token is now generated and stored for user._id (./config/generateToken)
             token: generateToken(user._id)
         }
@@ -68,7 +68,7 @@ const authUser = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             password: user.password,
-            picture: user.picture,
+            pic: user.pic,
             // the token is now generated and stored for user._id (./config/generateToken)
             token: generateToken(user._id)
         }

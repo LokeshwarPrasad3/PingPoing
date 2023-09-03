@@ -2,21 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-body{
+body {
   --tw-bg-opacity: 1;
     background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+    
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-width: 100%;
 }
 
 /* doing changes when mobile size  */
-@media (max-width: 600px){
+@media (max-width: 600px) {
   /* when mobile size screen then decrease width */
-  .create_form,.login_form,.login_heading,.login_contenet{
+  .create_form,
+  .login_form,
+  .login_heading,
+  .login_contenet {
     width: 25rem;
   }
-  .create_form,.login_form{
+  .create_form,
+  .login_form {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+/* when 1000 scren then fix chat section names list */
+@media (max-width: 1500px) {
+  /* do chat container small do place my chat secton */
+  .all_chat_containers {
+    width: 120%;
+  }
+}
+
+@media (max-width: 1000px) {
+ 
+  /* dcrease size of chat container do place to myChat section */
+  .all_chat_containers {
+    width: 110%;
+  }
+}
+
+@media (max-width: 750px) {
+  /* increae size of my chat when screen small */
+  .side_drawer{
+    width: 100%;
+    
+  }
+  /* one */
+  .full_window {
+    flex-wrap: wrap;
   }
 }

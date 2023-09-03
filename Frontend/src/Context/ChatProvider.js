@@ -16,6 +16,7 @@ const ChatProvider = ({ children }) => {
 
     // we need to store user from localstorage
     const [user, setUser] = useState();
+    
 
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const ChatProvider = ({ children }) => {
 
         // if user is not logged in redirected to login poage
         if (!userInfo) {
-            navigate("/");
+             navigate("/");
         }
     }, [navigate]);
 

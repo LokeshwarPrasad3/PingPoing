@@ -3,12 +3,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import Login from './Login';
-import Signup from './Signup';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 const HomePage = () => {
   // using for navigatin in any route
@@ -28,16 +25,16 @@ const HomePage = () => {
   useEffect(() => {
     // get logged user data from localStorage and setUser
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    setUser(userInfo);
 
-    // if user is not logged in redirected to login poage
-    if (!userInfo) {
-      navigate("/chat");
+    // if user logged in redirected to chat page
+    if (userInfo) {
+      navigate("/chats");
     }
   }, [navigate]); // dependency navigate change then call
 
   return (
     <>
+    {/* <Navbar/> */}
 
       <div className="login_container font-signika flex flex-col justify-center items-center pt-7 gap-4  ">
 
