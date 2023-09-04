@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import { Tooltip } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,6 +10,10 @@ import ProfileModal from '../Modals/ProfileModal'; // Use uppercase 'P' in the i
 
 
 const Navbar = () => {
+
+
+    const [getUser, setGetUser] = useState({});
+
     // Populate showSlideDrawer when clicked
     const [showSlideDrawer, setShowSlideDrawer] = useState(false);
 
@@ -17,10 +21,11 @@ const Navbar = () => {
         console.log("close method called");
         setShowSlideDrawer(false);
     }
-
+    
     // Import user from context API
     const { user } = ChatState();
-    console.log(user);
+    // console.log(user.pic);
+
 
     // Show profile react component
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -33,6 +38,11 @@ const Navbar = () => {
         setIsProfileModalOpen(false);
     };
 
+
+    useEffect(()=>{
+        setGetUser(user);
+        console.log(user);
+    },[user])
 
     return (
         <>
@@ -77,13 +87,15 @@ const Navbar = () => {
 
                     {/* This section includes show profile button */}
                     <div className="show_profile_button flex items-center   ">
+
                         <div className="show_profile flex cursor-pointer ">
-                            <img className='w-8 rounded-full' src={user.pic} alt={user.name} srcSet="" />
+                            <img className='w-8 rounded-full' src={(user?user.pic:"")} alt={user?user.name:""} srcSet="" />
+
                             <div className="down_arrow">
                                 <KeyboardArrowDownIcon onClick={openProfileModal} />
                                 {/* Render the profile modal when it's open */}
                                 {isProfileModalOpen && <ProfileModal isOpen={isProfileModalOpen} onClose={closeProfileModal} />}
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

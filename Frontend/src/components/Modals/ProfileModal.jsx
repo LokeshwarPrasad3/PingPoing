@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import AlertDialog from './AlertDialog';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
 function ProfileModal({ isOpen, onClose }) {
+
+    // to use navigation
+    const navigate = useNavigate();
+
     // Define the anchor element for the menu
     const anchorEl = isOpen ? document.body : null;
 
@@ -17,14 +23,22 @@ function ProfileModal({ isOpen, onClose }) {
         setIsModalOpen(true);
     };
     
+    // when clicked to MyProfile modal menuIcon then open alert Modal
     const closeModal = () => {
         setIsModalOpen(false);
         onClose();
     };
+    
+    // when clicked to logout then remove user and goto login page
+    const handleLogout= () =>{
+        localStorage.removeItem("userInfo");
+        onClose();
+        navigate("/");
+    }
 
 
+        // when clicked to MyProfile modal menuIcon then Show Profile details Modal
     const handleProfileShow = () =>{
-       
         openModal();
     }
 
@@ -48,7 +62,7 @@ function ProfileModal({ isOpen, onClose }) {
                 style={{ position: 'absolute', top: '50px', left: '-20px' }} // Add margin from the top
             >
                 <MenuItem onClick={handleProfileShow}>My Profile</MenuItem>
-                <MenuItem onClick={onClose}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
 
             <AlertDialog isOpen={isModalOpen} onClose={closeModal} />

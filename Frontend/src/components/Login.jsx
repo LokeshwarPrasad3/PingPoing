@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 // we need component and css 
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 // circular progress
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -52,15 +52,18 @@ const Login = () => {
             });
             console.log(data);
 
+            // when user is valid then set that data in localStorage
+            localStorage.setItem("userInfo", JSON.stringify(data));
+
             // make empty values of input fields
             setEmail("");
             setPassword("");
-            
-            setTimeout(()=>{
-               setLoading(false);  
-               // navigate to chat section successfully done
-               navigate('/chats');
-            },3000);
+
+            setTimeout(() => {
+                setLoading(false);
+                // navigate to chat section successfully done
+                navigate('/chats');
+            }, 3000);
         } catch (error) {
             toast.error("Invalid User");
             setLoading(false);
@@ -90,7 +93,7 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             type={showPass ? 'text' : 'password'} name="login_input_password" id="login_input_password" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Password' autoComplete="new-password" />
-                        <button onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
+                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
                     </div>
                 </div>
                 {/* input button which is login */}
