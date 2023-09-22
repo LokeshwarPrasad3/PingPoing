@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 // importing components
 import HomePage from './Pages/HomePage'
 import ChatPage from './Pages/ChatPage'
-
+import './CSS/style.css';
 
 
 function App() {

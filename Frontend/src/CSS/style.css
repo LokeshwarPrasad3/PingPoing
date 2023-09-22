@@ -1,0 +1,91 @@
+
+/* doing changes when mobile size  */
+@media (max-width: 600px) {
+  /* when mobile size screen then decrease width */
+  .create_form,
+  .login_form,
+  .login_heading,
+  .login_contenet {
+    width: 25rem;
+  }
+  .create_form,
+  .login_form {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* when 1000 scren then fix chat section names list */
+@media (max-width: 1500px) {
+  /* do chat container small do place my chat secton */
+  .all_chat_containers {
+    width: 120%;
+  }
+}
+
+@media (max-width: 1000px) {
+ 
+  /* dcrease size of chat container do place to myChat section */
+  .all_chat_containers {
+    width: 110%;
+  }
+}
+
+@media (max-width: 750px) {
+  /* increae size of my chat when screen small */
+  .side_drawer{
+    width: 100%;
+    
+  }
+  /* one */
+  .full_window {
+    flex-wrap: wrap;
+  }
+}
+
+
+
+/* chat page all styles */
+
+.messages_container {
+  min-width: calc(100vw - 24rem);
+}
+@media (max-width: 1009px) {
+  /* card of */
+  .person_details {
+    min-width: 23rem;
+  }
+}
+.communication_message_container,
+.all_person_list,
+.messages_container {
+  min-height: calc(100vh - 4rem);
+  overflow: hidden;
+}
+@media (max-width: 821px) {
+  .messages_container {
+    /* display: none; */
+    min-width: 100vw;
+    min-height: 85vh;
+  }
+  .all_person_list {
+    width: 100%;
+    /* padding: 0; */
+    min-width: 24rem;
+  }
+  .communication_message_container {
+    flex-direction: column;
+  }
+
+  .messages_container {
+    /* min-width: 23rem; */
+    display: flex;
+    border: 1px;
+  }
+}
+@media (max-width: 410px) {
+  /* card of */
+  .person_details {
+    min-width: 20rem;
+  }
+}

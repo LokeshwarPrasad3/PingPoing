@@ -1,5 +1,4 @@
 
-
 // returning another user which is done latest message
 
 export const getSender = (loggedUser, users) =>{

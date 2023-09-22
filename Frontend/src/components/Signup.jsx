@@ -50,18 +50,22 @@ const Signup = () => {
             // often used in web applications for tasks like file uploads.
 
             data.append("file", pic);
-            data.append("upload_preset", "chat-app");
-            data.append("cloud_name", "chatappcloud");
+            data.append("upload_preset", "mern-chat-app");
+            data.append("cloud_name", "mernchatappcloud");
+            data.append("api_key", "488695261785225");
+            data.append("api_secret", "cWM3uWmnthOo0WXWk5-Ajz4cfVQ");
 
             // upload that data in cloudinary api using post method 
-            fetch("https://api.cloudinary.com/v1_1/chatappcloud/image/upload", {
+            fetch("https://api.cloudinary.com/v1_1/mernchatappcloud/image/upload", {
+                
                 //adding body method in headers
                 method: 'post', body: data
             })
                 .then((res) => res.json()) //data fetched
                 .then((data) => {
                     // console.log(data) // actual data of response
-                    console.log(data.url);
+                    console.log(data.url.toString());
+                    console.log(data);
                     setPic(data.url.toString());
                     setLoading(false);
                 })

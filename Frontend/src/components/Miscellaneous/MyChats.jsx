@@ -5,9 +5,10 @@ import { ChatState } from '../../Context/ChatProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { getSender } from '../../config/ChatLogics';
+import UserLoadStack from '../Modals/UserLoadStack';
 // import UserLoadStack from '../Modals/UserLoadStack';
 
-const MyChats = () => {
+const MyChats = ({ windowWidth, setShowChat, scrollToBottom }) => {
 
     // making state to stored loggedUser details
     const [loggedUser, setLoggedUser] = useState();
@@ -17,7 +18,6 @@ const MyChats = () => {
 
 
     const fetchChats = async () => {
-        // console.log(user._id)
         try {
             const config = {
                 headers: {
@@ -26,8 +26,8 @@ const MyChats = () => {
             };
 
             const { data } = await axios.get("/api/chat", config);
-            console.log(data);
             setChats(data);
+            console.log(data);
         }
         catch (error) {
             toast.warn("Failed to load the chats");
@@ -36,24 +36,20 @@ const MyChats = () => {
     }
 
     useEffect(() => {
-        console.log(chats);
         setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
         fetchChats();
+        console.log(chats);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // need chats, fetchChats dependencies
+    }, [chats]); // need chats, fetchChats dependencies
 
 
     return (
         <>
 
-            {/* chat section where all the chat are visible */}
-            <div
-                //  style={{ display: selectedChat ? 'none' : 'flex' }}
-                className={`side_drawer w-[70%] bg-slate-200 min-h-screen m-2 rounded px-7 flex-col gap-4 py-5 `}>
-
-
-                <div className="heading_section flex items-center justify-between pb-3">
-                    <h2 className="text-3xl font-bold font-signika opacity-60">My Chats</h2>
+            {/* contact message list  */}
+            <div className="all_person_list flex flex-col w-full min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md " >
+                <div className="heading_section flex items-center justify-between pt-5 px-9">
+                    <h2 className="text-xl font-bold font-signika text-white">My Chats</h2>
                     {/* close icon which close popup */}
                     <div className="close_button flex items-center justify-around gap-1 px-2 py-1 cursor-pointer bg-gray-300 rounded ">
                         <h2 className="font-signika " >New Group Chat</h2>
@@ -61,47 +57,53 @@ const MyChats = () => {
                         />
                     </div>
                 </div>
+                {/* three filters connect group */}
+                <div className="person_filters flex justify-center gap-3 items-center py-2 h-16">
+                    <button className='fav_button' >All</button>
+                    <button className='fav_button' >Connect</button>
+                    <button className='fav_button' >Group</button>
+                </div>
+                {/* list of persons */}
 
-                {/* all search cards inside that */}
-                <div className="cards_search_user flex flex-col gap-2">
+                <div
+                    className="person_list flex flex-col gap-2 px-1 font-overpass justify-center items-center py-1 rounded h-full ">
 
-                    {/* a small card */}
-                    {/* a small card */}
-
-
-                    {/* if chats is there then show if not then chatLoading */}
-
-
+                    {/* render chat */}
                     {
-                        chats && // if exist then only
-                        (
-                            chats.map((chat) => {
-
+                        chats ? (
+                            chats.map((chat, index) => {
                                 return (
-                                    <>
-
-                                        <div key={chat._id}
-                                            style={{ backgroundColor: (selectedChat === chat) ? '#38B2AC' : '#E8E8E8', color: (selectedChat === chat) ? 'white' : 'black' }}
-                                            onClick={() => setSelectedChat(chat)}
-                                            className="user_card  flex items-center cursor-pointer py-1 rounded-md px-3 pl-4 gap-3 ">
-                                            <div className="info font-signika">
-                                                <h3 className="user_name text-sm font-500 ">
-                                                    {!chat.isGroundChat
-                                                        ? getSender(loggedUser, chat.users)
-                                                        : chat.chatName
-                                                    }
-                                                </h3>
-                                                <h4 className="user_email text-[13px] "> <span className='font-300' >Email : </span> lokeshwar@gmail.com</h4>
-                                            </div>
+                                    <div
+                                        key={index}
+                                        onClick={
+                                            () => {
+                                                if (windowWidth <= 821) {
+                                                    scrollToBottom();
+                                                    setShowChat(true)
+                                                }
+                                                setSelectedChat(chat)
+                                            }}
+                                        className="person_details cursor-pointer w-full text-gray-100 hover:text-slate-100 gap-3 rounded hover:bg-slate-500 flex custom-transition h-14 bg-slate-400 px-5 items-center"
+                                        style={{ backgroundColor: (selectedChat === chat) ? '#38B2AC' : '#E8E8E8', color: (selectedChat === chat) ? 'white' : 'black' }}
+                                    >
+                                        <img className='h-10 w-10 rounded-full' src={chat.users[1].pic} alt="lokeshwar" />
+                                        <div className="person_box flex flex-col py-1">
+                                            <h3 className="user_name text-sm font-500 ">
+                                                {!chat.isGroundChat
+                                                    ? getSender(loggedUser, chat.users)
+                                                    : chat.chatName
+                                                }
+                                            </h3>
+                                            <h4 className="user_email text-[13px] "> <span className='font-300' >Email : </span> lokeshwar@gmail.com </h4>
                                         </div>
-                                    </>
 
+                                    </div>
                                 )
                             })
+                        ) : (
+                            <UserLoadStack />
                         )
                     }
-
-
 
                 </div>
             </div>

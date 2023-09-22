@@ -2,6 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+.flex-3 {
+  @apply flex justify-center items-center;
+}
+.flex-2 {
+  @apply flex items-center;
+}
+.flex-all {
+  @apply flex flex-col justify-center items-center;
+}
+
+/* Style for custom navigation links (Feature of TalwindCSS) */
+.custom-nav-link {
+  @apply flex gap-1 items-center cursor-pointer justify-center px-3 py-2 transition-all duration-300 hover:opacity-90 rounded-2xl;
+}
+
+/* Define a custom transition class */
+.custom-transition {
+  @apply transition-all duration-300 ease-in;
+}
+
+.custom-button {
+  @apply py-[1px] px-3 w-fit bg-slate-200  opacity-95 hover:text-slate-900 hover:bg-gray-300 transition-all duration-500 rounded-sm text-xl shadow-sm shadow-blue-400 font-signika;
+}
+
+/* in profile secction when technology select */
+.choiced_options {
+  @apply flex justify-center text-[1rem] cursor-pointer items-center gap-1 bg-slate-500 rounded-lg pl-[3px] h-[1.3rem];
+}
+.selected_options {
+  @apply flex justify-center text-[1rem] cursor-pointer items-center gap-1 bg-slate-200 rounded-lg pl-[3px] h-[1.3rem];
+}
+.selected_options_close {
+  @apply bg-slate-400 opacity-80 text-red-800  cursor-pointer h-[1.2rem] w-[1.2rem] rounded-md  hover:bg-gray-500 transition-all duration-500;
+}
+
+/* heading of h1 */
+.left_heading {
+  @apply text-3xl font-semibold opacity-95 tracking-wide;
+}
+
+/* custom values of keys */
+.custom-values {
+  @apply text-[1.2rem];
+}
+/* favoritae button of project */
+.fav_button {
+  @apply py-0 px-3 w-fit bg-slate-200 opacity-95 hover:text-slate-900 hover:bg-gray-300 transition-all duration-500 rounded-md text-lg shadow-sm shadow-blue-400 font-signika;
+}
+.project_page_button {
+  @apply py-0 px-3 w-fit bg-green-400 hover:text-slate-900 hover:bg-green-400 transition-all duration-500 rounded-md text-lg shadow-sm shadow-blue-400 font-signika opacity-90;
+}
+
+
 body {
   --tw-bg-opacity: 1;
     background-color: rgb(30 41 59 / var(--tw-bg-opacity));
@@ -12,48 +67,4 @@ body {
     justify-content: space-between;
     height: 100%;
     min-width: 100%;
-}
-
-/* doing changes when mobile size  */
-@media (max-width: 600px) {
-  /* when mobile size screen then decrease width */
-  .create_form,
-  .login_form,
-  .login_heading,
-  .login_contenet {
-    width: 25rem;
-  }
-  .create_form,
-  .login_form {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
-/* when 1000 scren then fix chat section names list */
-@media (max-width: 1500px) {
-  /* do chat container small do place my chat secton */
-  .all_chat_containers {
-    width: 120%;
-  }
-}
-
-@media (max-width: 1000px) {
- 
-  /* dcrease size of chat container do place to myChat section */
-  .all_chat_containers {
-    width: 110%;
-  }
-}
-
-@media (max-width: 750px) {
-  /* increae size of my chat when screen small */
-  .side_drawer{
-    width: 100%;
-    
-  }
-  /* one */
-  .full_window {
-    flex-wrap: wrap;
-  }
 }

@@ -11,7 +11,7 @@ import ProfileModal from '../Modals/ProfileModal'; // Use uppercase 'P' in the i
 
 const Navbar = () => {
 
-
+    // eslint-disable-next-line
     const [getUser, setGetUser] = useState({});
 
     // Populate showSlideDrawer when clicked
@@ -89,7 +89,7 @@ const Navbar = () => {
                     <div className="show_profile_button flex items-center   ">
 
                         <div className="show_profile flex cursor-pointer ">
-                            <img className='w-8 rounded-full' src={(user?user.pic:"")} alt={user?user.name:""} srcSet="" />
+                            <img className='w-8 h-8 rounded-full border-[1px] border-gray-800' src={(user?user.pic:"")} alt={user?user.name:""} srcSet="" />
 
                             <div className="down_arrow">
                                 <KeyboardArrowDownIcon onClick={openProfileModal} />
