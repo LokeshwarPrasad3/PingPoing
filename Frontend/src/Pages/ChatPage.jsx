@@ -5,8 +5,12 @@ import Navbar from '../components/Miscellaneous/Navbar';
 import '../CSS/style.css';
 import MyChats from '../components/Miscellaneous/MyChats';
 import ChatBox from '../components/Miscellaneous/ChatBox';
+import { ChatState } from '../Context/ChatProvider';
 
 const ChatPage = () => {
+    const { user } = ChatState();
+
+    const [fetchAgain, setFetchAgain] = useState(false);
 
     // chat show or not
     const [showChat, setShowChat] = useState(false);
@@ -27,7 +31,6 @@ const ChatPage = () => {
     // store all messages of user
     const tempMessages = [
         ...previousTempMessages,
-
         {
             date: new Date().toLocaleDateString(),
             messages: [
@@ -127,9 +130,9 @@ const ChatPage = () => {
             <div className="communication_message_container font-signika flex items-center justify-center w-full min-h-full ">
                 {/* not show when showing chatsContent */}
                 {
-                    !showChat && (
+                    user && (
                         <>
-                            <MyChats windowWidth={windowWidth} setShowChat={setShowChat} scrollToBottom={scrollToBottom} />
+                            <MyChats windowWidth={windowWidth} setShowChat={setShowChat} showChat={showChat} scrollToBottom={scrollToBottom} fetchAgain={fetchAgain} />
                         </>
                     )
                 }
@@ -144,6 +147,12 @@ const ChatPage = () => {
                         messageInput={messageInput}
                         setMessageInput={setMessageInput}
                         inputRef={inputRef}
+
+                        fetchAgain={fetchAgain}
+                        setFetchAgain={setFetchAgain}
+
+                        setShowChat={setShowChat} 
+                        showChat={showChat} 
 
                     />
                 }

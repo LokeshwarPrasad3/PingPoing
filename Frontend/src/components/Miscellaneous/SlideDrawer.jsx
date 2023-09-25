@@ -15,7 +15,7 @@ const SideDrawer = ({ onClose }) => {
   //  // getting details from contextAPI
   const { user, setSelectedChat, chats, setChats } = ChatState();
 
-// search is getting input search user data 
+  // search is getting input search user data 
   const [search, setSearch] = useState("");
   // after search user it store that users
   const [searchResult, setSearchResult] = useState([]);
@@ -25,7 +25,7 @@ const SideDrawer = ({ onClose }) => {
   const [loadingChat, setLoadingChat] = useState();
 
 
-// after input username clicked to go then perform search
+  // after input username clicked to go then perform search
   const handleSearchUser = async (e) => {
     e.preventDefault();
 
@@ -57,7 +57,7 @@ const SideDrawer = ({ onClose }) => {
 
 
   // click on list of users
-  const accessChat = async () => {
+  const accessChat = async (userId) => {
     // loading till not getting data chat
     setLoadingChat(true);
 
@@ -71,11 +71,10 @@ const SideDrawer = ({ onClose }) => {
 
     try {
       // show all chats
-      const { data } = await axios.post('/api/chat', { userId: user._id }, config);
+      const { data } = await axios.post('/api/chat', { userId }, config);
 
       // if newlly comed chat then simply push to chats
-      if (!chats.find((c) => c._id === data._id))
-        setChats([data, ...chats]);
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 
       setSelectedChat(data);
       setLoadingChat(false);
@@ -84,7 +83,7 @@ const SideDrawer = ({ onClose }) => {
     }
 
     catch (error) {
-      toast.warn("Error fetchig data");
+      toast.warn("Error fetchig chats");
     }
 
   }
@@ -122,25 +121,22 @@ const SideDrawer = ({ onClose }) => {
 
 
 
-      
+
         {/* all search cards inside that */}
         <div className="cards_search_user flex items-center justify-center flex-col gap-2">
 
           {/* when not shows user then show that skeleton */}
           {
-            loading ? <UserLoadStack /> :
+            loading ? <UserLoadStack value={10} /> :
               (
-                searchResult.map((element) => {
+                searchResult?.map((user) => {
                   return (
                     <>
-
                       <UserListItem
-                        key={element._id}
-                        user={element}
+                        key={user._id}
+                        user={user}
                         handleFunction={() => accessChat(user._id)}
                       />
-
-
                     </>
                   )
                 })

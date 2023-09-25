@@ -6,12 +6,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { getSender } from '../../config/ChatLogics';
 import UserLoadStack from '../Modals/UserLoadStack';
-// import UserLoadStack from '../Modals/UserLoadStack';
+import CreateGroupChat from '../Modals/CreateGroupChat'
 
-const MyChats = ({ windowWidth, setShowChat, scrollToBottom }) => {
+
+const MyChats = ({ windowWidth, setShowChat,showChat, scrollToBottom, fetchAgain }) => {
 
     // making state to stored loggedUser details
     const [loggedUser, setLoggedUser] = useState();
+
+    // show hide group making modal
+    const [showCreateGroup, setShowCreateGroup] = useState(false);
 
     // getting details from contextAPI
     const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
@@ -21,7 +25,7 @@ const MyChats = ({ windowWidth, setShowChat, scrollToBottom }) => {
         try {
             const config = {
                 headers: {
-                    Authorization: `Bearer ${user.token}`,
+                    "Authorization": `Bearer ${user.token}`,
                 },
             };
 
@@ -40,19 +44,21 @@ const MyChats = ({ windowWidth, setShowChat, scrollToBottom }) => {
         fetchChats();
         console.log(chats);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [chats]); // need chats, fetchChats dependencies
+    }, [fetchAgain]); // need chats, fetchChats dependencies
 
 
     return (
         <>
 
             {/* contact message list  */}
-            <div className="all_person_list flex flex-col w-full min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md " >
+            <div className={`all_person_list font-overpass ${showChat?'hidden':'flex'} flex-col w-full min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md `}>
                 <div className="heading_section flex items-center justify-between pt-5 px-9">
                     <h2 className="text-xl font-bold font-signika text-white">My Chats</h2>
                     {/* close icon which close popup */}
                     <div className="close_button flex items-center justify-around gap-1 px-2 py-1 cursor-pointer bg-gray-300 rounded ">
-                        <h2 className="font-signika " >New Group Chat</h2>
+                        <h2 className="font-signika "
+                            onClick={() => setShowCreateGroup(true)}
+                        >New Group Chat</h2>
                         <AddIcon
                         />
                     </div>
@@ -64,7 +70,6 @@ const MyChats = ({ windowWidth, setShowChat, scrollToBottom }) => {
                     <button className='fav_button' >Group</button>
                 </div>
                 {/* list of persons */}
-
                 <div
                     className="person_list flex flex-col gap-2 px-1 font-overpass justify-center items-center py-1 rounded h-full ">
 
@@ -86,10 +91,10 @@ const MyChats = ({ windowWidth, setShowChat, scrollToBottom }) => {
                                         className="person_details cursor-pointer w-full text-gray-100 hover:text-slate-100 gap-3 rounded hover:bg-slate-500 flex custom-transition h-14 bg-slate-400 px-5 items-center"
                                         style={{ backgroundColor: (selectedChat === chat) ? '#38B2AC' : '#E8E8E8', color: (selectedChat === chat) ? 'white' : 'black' }}
                                     >
-                                        <img className='h-10 w-10 rounded-full' src={chat.users[1].pic} alt="lokeshwar" />
+                                        <img className='h-10 w-10 rounded-full' src={!chat.isGroupChat?chat.users[1].pic:"./Images/default_group.png"} alt="lokeshwar" />
                                         <div className="person_box flex flex-col py-1">
                                             <h3 className="user_name text-sm font-500 ">
-                                                {!chat.isGroundChat
+                                                {!chat.isGroupChat
                                                     ? getSender(loggedUser, chat.users)
                                                     : chat.chatName
                                                 }
@@ -104,10 +109,11 @@ const MyChats = ({ windowWidth, setShowChat, scrollToBottom }) => {
                             <UserLoadStack />
                         )
                     }
-
                 </div>
             </div>
-
+            {
+                showCreateGroup && <CreateGroupChat setShowCreateGroup={setShowCreateGroup}/>
+            }
             <ToastContainer />
         </>
     )

@@ -6,10 +6,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'signika': ['signika negative', 'sans-serif']
+        'signika': ['signika negative', 'sans-serif'],
+        'bree': ['bree serif', 'sans-serif'],
+        'overpass': ['overpass', 'sans-serif']
       },
     },
-
   },
   plugins: [],
 }
