@@ -88,7 +88,7 @@ const MyChats = ({ windowWidth, setShowChat,showChat, scrollToBottom, fetchAgain
                                                 }
                                                 setSelectedChat(chat)
                                             }}
-                                        className="person_details cursor-pointer w-full text-gray-100 hover:text-slate-100 gap-3 rounded hover:bg-slate-500 flex custom-transition h-14 bg-slate-400 px-5 items-center"
+                                        className="person_details  cursor-pointer w-full text-gray-100 hover:text-slate-100 gap-3 rounded hover:bg-slate-500 flex custom-transition h-14 bg-slate-400 px-5 items-center"
                                         style={{ backgroundColor: (selectedChat === chat) ? '#38B2AC' : '#E8E8E8', color: (selectedChat === chat) ? 'white' : 'black' }}
                                     >
                                         <img className='h-10 w-10 rounded-full' src={!chat.isGroupChat?chat.users[1].pic:"./Images/default_group.png"} alt="lokeshwar" />
@@ -99,7 +99,7 @@ const MyChats = ({ windowWidth, setShowChat,showChat, scrollToBottom, fetchAgain
                                                     : chat.chatName
                                                 }
                                             </h3>
-                                            <h4 className="user_email text-[13px] "> <span className='font-300' >Email : </span> lokeshwar@gmail.com </h4>
+                                            <h4 className="user_email user-select-none text-[13px] "> <span className='font-300' >Email : </span> lokeshwar@gmail.com </h4>
                                         </div>
 
                                     </div>

@@ -130,11 +130,11 @@ const ChatPage = () => {
             <div className="communication_message_container font-signika flex items-center justify-center w-full min-h-full ">
                 {/* not show when showing chatsContent */}
                 {
-                    user && (
+                    user ? user && (
                         <>
                             <MyChats windowWidth={windowWidth} setShowChat={setShowChat} showChat={showChat} scrollToBottom={scrollToBottom} fetchAgain={fetchAgain} />
                         </>
-                    )
+                    ) : ""
                 }
 
                 {/* mesage person and all messages */}
@@ -151,8 +151,8 @@ const ChatPage = () => {
                         fetchAgain={fetchAgain}
                         setFetchAgain={setFetchAgain}
 
-                        setShowChat={setShowChat} 
-                        showChat={showChat} 
+                        setShowChat={setShowChat}
+                        showChat={showChat}
 
                     />
                 }

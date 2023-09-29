@@ -160,13 +160,13 @@ const renameGroup = asyncHandler(async (req, res) => {
     // The { new: true } option ensures the updated chat is returned
     const updatedChat = await Chat.findByIdAndUpdate(
         chatId,
-        { chatName },
+        { chatName: chatName },
         { new: true }
     )
 
-    // Populate the 'users' and 'groupAdmin' fields of the updated chat document
-    // '-password' is used to exclude passwords from user data for security
-    updatedChat.populate("users", "-password").populate("groupAdmin", "-password");
+        // Populate the 'users' and 'groupAdmin' fields of the updated chat document
+        // '-password' is used to exclude passwords from user data for security
+        .populate("users", "-password").populate("groupAdmin", "-password");
 
     // Check if the chat was not found (updatedChat is falsy)
     if (!updatedChat) {

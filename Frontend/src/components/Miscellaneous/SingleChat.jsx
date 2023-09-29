@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ChatState } from '../../Context/ChatProvider';
 import ChatMessages from './ChatMessages';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import { getSender } from '../../config/ChatLogics';
+import { getSender, getSenderImage } from '../../config/ChatLogics';
+import PreviewIcon from '@mui/icons-material/Preview';
+import UpdateGroupChatModal from '../Modals/UpdateGroupChatModal';
+
 
 const SingleChat = (props) => {
+
+    // Showing group profiles
+    const [showProfile, setShowProfile] = useState(false);
+
     const { messagesContainerRef, sendMessage, inputRef,
         chatMessages, messageInput, setMessageInput,
         fetchAgain, setFetchAgain,
@@ -23,6 +30,11 @@ const SingleChat = (props) => {
         }
     }
 
+    // Close group info popup
+    const closeGroupPopup = () => {
+        setShowProfile(!showProfile);
+    }
+
     return (
         <>
             {
@@ -37,15 +49,16 @@ const SingleChat = (props) => {
                                         setShowChat(false);
                                         setSelectedChat("")
                                     }}
-                                    style={{ fontSize: '3rem', color: '#f2f2f2' }} />
+                                    className='text-slate-100'
+                                    style={{ fontSize: '3rem', color: '#f2f2f2', cursor: 'pointer' }} />
                                 {
                                     !selectedChat.isGroupChat ? (
                                         <>
                                             <div className="receiver_details flex items-center gap-2  px-3">
-                                                <img className='h-11 w-11 rounded-full cursor-pointer' src="./Images/takeshwar.jpg" alt="" srcSet="" />
+                                                <img className='h-11 w-11 rounded-full cursor-pointer' src={getSenderImage(user, selectedChat.users)} alt="" srcSet="" />
                                                 <div className="person_online flex flex-col justify-center ">
-                                                    <h3 className="text-xl" >{getSender(user, selectedChat.users)}</h3>
-                                                    <h5 className='' >Online</h5>
+                                                    <h3 className="text-lg" >{getSender(user, selectedChat.users)}</h3>
+                                                    <h5 className='text-sm' >Online</h5>
                                                 </div>
                                             </div>
                                         </>
@@ -53,7 +66,7 @@ const SingleChat = (props) => {
                                         (
                                             <>
                                                 <div className="receiver_details flex items-center gap-2  px-3">
-                                                    <img className='h-11 w-11 rounded-full cursor-pointer' src="./Images/takeshwar.jpg" alt="" srcSet="" />
+                                                    <img className='h-11 w-11 rounded-full cursor-pointer' src={getSenderImage(user, selectedChat.users)} alt="" srcSet="" />
                                                     <div className="person_online flex flex-col justify-center ">
                                                         <h3 className='text-2xl uppercase font-bree' >{selectedChat.chatName}</h3>
                                                     </div>
@@ -63,7 +76,12 @@ const SingleChat = (props) => {
                                 }
 
                             </div>
-                            <MoreVertIcon className="cursor-pointer hover:bg-slate-500 custom-transition mr-5 rounded-full" />
+                            {
+                                selectedChat.isGroupChat &&
+                                <PreviewIcon
+                                    onClick={() => setShowProfile(true)}
+                                    className="cursor-pointer custom-transition mr-6 rounded-full text-slate-100" style={{ fontSize: '2.6rem' }} />
+                            }
                         </div>
                         {/* messages adn send message box */}
                         <div className=' h-full overflow-y-auto bg-slate-600 p-2 flex text-gray-200 opacity-90 flex-col justify-between gap-3' >
@@ -96,6 +114,19 @@ const SingleChat = (props) => {
                     </>
                 )
             }
+
+
+
+            {/* Show group info when clicked */}
+            {
+                showProfile && <UpdateGroupChatModal
+                    onClose={closeGroupPopup}
+                    fetchAgain={fetchAgain}
+                    setFetchAgain={setFetchAgain}
+                />
+            }
+
+
 
         </>
     )

@@ -64,7 +64,12 @@ export default function CreateGroupChat({ setShowCreateGroup }) {
             toast.warn("Fill Inputs");
             return;
         }
+        if (selectedUser.length < 2) {
+            toast.warn("At least 2 member required");
+            return;
+        }
         try {
+            console.log(selectedUser.length);
 
             const config = {
                 headers: {

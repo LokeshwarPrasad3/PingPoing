@@ -9,9 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import { ChatState } from '../../Context/ChatProvider';
 
-function AlertDialog({ isOpen, onClose }) {
-
-    const { user } = ChatState();
+function AlertDialog({ isOpen, onClose, user }) {
 
 
     return (

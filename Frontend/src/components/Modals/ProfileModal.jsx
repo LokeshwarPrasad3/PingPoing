@@ -3,11 +3,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import AlertDialog from './AlertDialog';
 import { useNavigate } from 'react-router-dom';
+import { ChatState } from '../../Context/ChatProvider';
 
 
 
 
 function ProfileModal({ isOpen, onClose }) {
+
+    const {user} = ChatState();
 
     // to use navigation
     const navigate = useNavigate();
@@ -57,15 +60,13 @@ function ProfileModal({ isOpen, onClose }) {
                     vertical: 'top',
                     horizontal: 'right',
                 }}
-
-
                 style={{ position: 'absolute', top: '50px', left: '-20px' }} // Add margin from the top
             >
                 <MenuItem onClick={handleProfileShow}>My Profile</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
 
-            <AlertDialog isOpen={isModalOpen} onClose={closeModal} />
+            <AlertDialog isOpen={isModalOpen} user={user} onClose={closeModal} />
         </>
     );
 }
