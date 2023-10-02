@@ -22,6 +22,7 @@ const ChatProvider = ({ children }) => {
 
     // this is store all chats of logged users
     const [chats, setChats] = useState([]);
+    const [notification, setNotification] = useState([]);
 
 
     // first time refresh getting logged user data from localstorage
@@ -37,7 +38,7 @@ const ChatProvider = ({ children }) => {
     }, [navigate]);
 
     return (
-        <ChatContext.Provider value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats }}  >
+        <ChatContext.Provider value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats, notification, setNotification }}  >
             {children}
         </ChatContext.Provider>
     )

@@ -11,7 +11,7 @@ const ChatBox = (props) => {
     const { messagesContainerRef, sendMessage, inputRef,
         chatMessages, messageInput, setMessageInput,
         fetchAgain, setFetchAgain
-        , setShowChat ,showChat   } = props;
+        , setShowChat, showChat, scrollToBottom } = props;
 
   
     return (
@@ -29,7 +29,7 @@ const ChatBox = (props) => {
                         fetchAgain,
                         setFetchAgain,
                         setShowChat, 
-                        showChat
+                        showChat,
                     }}
                 />
 

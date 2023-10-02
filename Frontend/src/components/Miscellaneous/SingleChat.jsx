@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { ChatState } from '../../Context/ChatProvider';
 import ChatMessages from './ChatMessages';
 import ScrollableChat from './ScrollableChat';
@@ -13,15 +13,20 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { host } from '../../config/api';
+import typingAmimation from '../../Animation/chat-animation.json';
+
 
 
 import io from 'socket.io-client'
+import Lottie from 'react-lottie';
 const ENDPOINT = host;
 var socket, selectedChatCompare;
 
 const SingleChat = (props) => {
+    const typingTimeoutRef = useRef(null);
+    const chatContainerRef = useRef(null);
 
-    const { messagesContainerRef,
+    const {
         // sendMessage, 
         inputRef,
         chatMessages, messageInput, setMessageInput,
@@ -35,12 +40,24 @@ const SingleChat = (props) => {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState([]);
+    const [typing, setTyping] = useState(false);
+    const [isTyping, setIsTyping] = useState(false);
+
+    // typig indicator options 
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: typingAmimation,
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice",
+        },
+    }
 
     // Showing group profiles
     const [showProfile, setShowProfile] = useState(false);
 
 
-    const { user, selectedChat, setSelectedChat } = ChatState();
+    const { user, selectedChat, setSelectedChat, notification, setNotification } = ChatState();
 
 
 
@@ -69,6 +86,7 @@ const SingleChat = (props) => {
 
     // send message
     const sendMessage = async (e) => {
+        socket.emit('stop typing', selectedChat._id);
         try {
             const config = {
                 headers: {
@@ -104,7 +122,9 @@ const SingleChat = (props) => {
 
         if (user) {
             socket.emit("setup", user);
-            socket.on('connection', () => setSocketConnected(true));
+            socket.on('connected', () => setSocketConnected(true));
+            socket.on('typing', () => setIsTyping(true));
+            socket.on('stop typing', () => setIsTyping(false));
         } else {
             // Handle the case where the user is not loaded
             console.log("User is not loaded, unable to emit 'setup' event.");
@@ -120,23 +140,64 @@ const SingleChat = (props) => {
         selectedChatCompare = selectedChat;
     }, [selectedChat]);
 
+    console.log(notification, "...........");
+
     // socket 
     useEffect(() => {
         socket.on('message received', (newMessageReceived) => {
             if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
                 fetchMessages();
-                // give notification
+
+                if (!notification.includes(newMessageReceived)) {
+                    setNotification([...notification, newMessageReceived]);
+                    setFetchAgain(!fetchAgain);
+                }
             } else {
                 setMessages([...messages, newMessageReceived]);
+                fetchMessages();
+
             }
         })
 
+        // Scroll to the bottom whenever messages change
+        scrollToBottom();
+
     }, [messages]);
 
+    // Scroll to the bottom function
+    const scrollToBottom = () => {
+        if (chatContainerRef.current) {
+            // Scroll to the bottom of the messages container
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    };
+
     const typingHandler = (e) => {
-        setNewMessage(e.target.value)
-        // typing indicator logic
-    }
+        setNewMessage(e.target.value);
+
+        // Typing indicator logic
+        if (!socketConnected || !selectedChat) return;
+
+        if (!typing) {
+            socket.emit('typing', selectedChat._id);
+            setTyping(true);
+        }
+
+        // When to stop typing after 3 seconds of inactivity
+        const timerLength = 2000;
+
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+        }
+
+        typingTimeoutRef.current = setTimeout(() => {
+            if (typing) {
+                socket.emit('stop typing', selectedChat._id);
+                setTyping(false);
+            }
+        }, timerLength);
+    };
+
 
     // if clcked to enter then go send
     const handleKeyDown = (e) => {
@@ -202,7 +263,7 @@ const SingleChat = (props) => {
                         {/* messages adn send message box */}
                         <div className='overflow-y-auto bg-slate-600 px-2 flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2' >
 
-                            <div ref={messagesContainerRef} className="messagesb_box_container bg-red-500 px-2 pr-5 overflow-x-auto min-h-[79vh] max-h-[80vh]">
+                            <div ref={chatContainerRef} className="messagesb_box_container bg-slate-600 px-2 pr-5 overflow-x-auto min-h-[79vh] max-h-[80vh]">
                                 {
                                     loading ? (
                                         <div className='relative h-[80vh] flex justify-center items-center'>
@@ -219,12 +280,26 @@ const SingleChat = (props) => {
                             </div>
 
                             <div className="send_message_container flex justify-between h-fit pr-5 items-center gap-2 ">
+                                {/* show typing indeicator */}
+                                {
+                                    isTyping ? (
+                                        <Lottie
+                                            options={defaultOptions}
+                                            width={70}
+                                        />
+
+                                    ) : ""
+                                }
                                 <input
-                                    ref={inputRef}
                                     onKeyDown={handleKeyDown}
                                     value={newMessage}
                                     onChange={typingHandler}
-                                    className='w-full bg-slate-700 border-gray-500 px-2 py-2 border-[1px] rounded-xl  focus:outline-none placeholder:text-gray-200' type="text" name="" id="input_message " placeholder=' Enter Message' />
+                                    className='w-full bg-slate-700 border-gray-500 px-2 py-2 border-[1px] rounded-xl  focus:outline-none placeholder:text-gray-200'
+                                    type="text"
+                                    name=""
+                                    id="input_message"
+                                    placeholder=' Enter Message'
+                                />
                                 {/* when enter then go send message */}
 
                                 <SendIcon

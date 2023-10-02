@@ -61,35 +61,33 @@ const ChatPage = () => {
     // all chat messages stored here
     const [chatMessages, setChatMessages] = useState(tempMessages);
 
-
-    useEffect(() => {
-        // Use useEffect to scroll to the bottom when chatMessages change and showChat is true
+    const scrollToBottom = () => {
         if (messagesContainerRef.current && showChat) {
-            // Scroll to the bottom of the messages container
             messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
         }
+    };
+
+    useEffect(() => {
+       
+
+        scrollToBottom(); // Initial scroll to the bottom when chat loads
 
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
-            console.log(windowWidth); // Log the updated windowWidth value
+            scrollToBottom(); // Scroll to the bottom on window resize
         };
 
         // Add an event listener to listen for window resize
         window.addEventListener("resize", handleResize);
 
+        // Scroll to the bottom whenever chatMessages change
+        scrollToBottom();
+
         // Remove the event listener when the component unmounts
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, [chatMessages, showChat, windowWidth]); // Include chatMessages and showChat as dependencies
-
-
-    const scrollToBottom = () => {
-        if (messagesContainerRef.current) {
-            // Scroll to the bottom of the messages container
-            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-        }
-    };
+    }, [chatMessages, showChat, windowWidth]);
 
 
 
@@ -132,7 +130,9 @@ const ChatPage = () => {
                 {
                     user ? user && (
                         <>
-                            <MyChats windowWidth={windowWidth} setShowChat={setShowChat} showChat={showChat} scrollToBottom={scrollToBottom} fetchAgain={fetchAgain} />
+                            <MyChats windowWidth={windowWidth} setShowChat={setShowChat} showChat={showChat} 
+                            scrollToBottom={scrollToBottom} 
+                            fetchAgain={fetchAgain} />
                         </>
                     ) : ""
                 }
@@ -153,6 +153,7 @@ const ChatPage = () => {
 
                         setShowChat={setShowChat}
                         showChat={showChat}
+                        scrollToBottom={scrollToBottom} 
 
                     />
                 }
