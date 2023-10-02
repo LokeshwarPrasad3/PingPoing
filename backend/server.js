@@ -14,6 +14,7 @@ const chats = require('./data/data.js');
 const userRoutes = require('./routes/userRoutes');
 // all the chat operations here
 const chatRoutes = require('./routes/chatRoutes');
+const messageRoutes = require('./routes/messageRoutes');
 // if user access unExisted path then show that 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
@@ -49,6 +50,9 @@ app.use('/api/user', userRoutes);
 // create a new endpoint for chat operations
 app.use('/api/chat', chatRoutes);
 
+// create new endpoint for messages
+app.use('/api/message', messageRoutes)
+
 
 //👉 add error handling middleware if one parameter (functionNameOnly)
 // It's usually placed at the end of your route handlers to catch any unmatched requests.
@@ -60,6 +64,49 @@ app.use(notFound);
 app.use(errorHandler);
 
 
-app.listen(PORT, () => {
-    console.log(`Server is started on PORT : ${PORT}`);
+const server = app.listen(PORT, () => { console.log(`Server is started on PORT : ${PORT}`); })
+
+// Setup socket connection
+const io = require('socket.io')(server, {
+    pingTimeout: 60000,//close connection if user not event
+    cors: {
+        origin: "http://localhost:3000"
+    }
+});
+
+
+// make event
+io.on("connection", (socket) => {
+    console.log("Connected to socket.io");
+
+    // Creating new socket for particular user setup getting data from backend
+    socket.on('setup', (userData) => {
+        socket.join(userData._id);
+        console.log(userData._id);
+        socket.emit('connected');
+    })
+
+    // someone join socket that event
+    socket.on('join chat', (room) => {
+        socket.join(room);
+        console.log("user joined room " + room);
+    })
+
+    // send message socket
+    socket.on('new message', (newMessageReceived) => {
+        var chat = newMessageReceived.chat;
+
+        if(!chat.users) return console.log('chat.users not defined');
+
+        chat.users.forEach((user)=>{
+            if(user._id == newMessageReceived.sender._id) return; // sender
+
+            socket.in(user._id).emit("message received", newMessageReceived);
+        })
+    })
+
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
 })

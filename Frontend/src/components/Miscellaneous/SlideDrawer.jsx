@@ -9,6 +9,7 @@ import UserLoadStack from '../Modals/UserLoadStack';
 import UserListItem from './UserListItem';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { host } from '../../config/api';
 
 const SideDrawer = ({ onClose }) => {
 
@@ -46,7 +47,7 @@ const SideDrawer = ({ onClose }) => {
         }
       }
       // Make an HTTP GET request to search for users based on the input
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`${host}/api/user?search=${search}`, config);
       setLoading(false); // Set loading to false when the request is complete
       setSearchResult(data); // Store the search result in state
     } catch (error) {
@@ -71,7 +72,7 @@ const SideDrawer = ({ onClose }) => {
 
     try {
       // show all chats
-      const { data } = await axios.post('/api/chat', { userId }, config);
+      const { data } = await axios.post(`${host}/api/chat`, { userId }, config);
 
       // if newlly comed chat then simply push to chats
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);

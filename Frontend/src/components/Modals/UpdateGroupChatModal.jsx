@@ -11,9 +11,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import UserListItem from '../Miscellaneous/UserListItem';
+import { host } from '../../config/api';
 
 export default function UpdateGroupChatModal(props) {
-    const { onClose, fetchAgain, setFetchAgain } = props;
+    const { onClose, fetchAgain, setFetchAgain, fetchMessages } = props;
 
     // Getting from contextAPI
     const { selectedChat, setSelectedChat, user } = ChatState();
@@ -38,7 +39,7 @@ export default function UpdateGroupChatModal(props) {
                     'Authorization': `Bearer ${user.token}`,
                 }
             };
-            const { data } = await axios.put('/api/chat/rename', {
+            const { data } = await axios.put(`${host}/api/chat/rename`, {
                 chatId: selectedChat._id,
                 chatName: groupChatName,
             }, config);
@@ -72,7 +73,7 @@ export default function UpdateGroupChatModal(props) {
                 }
             };
 
-            const { data } = await axios.get(`/api/user?search=${search}`, config);
+            const { data } = await axios.get(`${host}/api/user?search=${search}`, config);
             console.log(data);
             setLoading(false);
             setSearchResult(data);
@@ -102,7 +103,7 @@ export default function UpdateGroupChatModal(props) {
                     Authorization: `Bearer ${user.token}`
                 }
             };
-            const { data } = await axios.put("/api/chat/groupadd", {
+            const { data } = await axios.put(`${host}/api/chat/groupadd`, {
                 chatId: selectedChat._id,
                 userId: userToAdd._id,
             }, config);
@@ -134,7 +135,7 @@ export default function UpdateGroupChatModal(props) {
                     Authorization: `Bearer ${user.token}`
                 }
             };
-            const { data } = await axios.put("/api/chat/groupremove", {
+            const { data } = await axios.put(`${host}/api/chat/groupremove`, {
                 chatId: selectedChat._id,
                 userId: userToRemove._id,
             }, config);
@@ -150,6 +151,7 @@ export default function UpdateGroupChatModal(props) {
             }
 
             setFetchAgain(!fetchAgain);
+            fetchMessages();
             setLoading(false);
 
         }

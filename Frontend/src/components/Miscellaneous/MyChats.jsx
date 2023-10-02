@@ -7,9 +7,10 @@ import axios from 'axios';
 import { getSender } from '../../config/ChatLogics';
 import UserLoadStack from '../Modals/UserLoadStack';
 import CreateGroupChat from '../Modals/CreateGroupChat'
+import { host } from '../../config/api';
 
 
-const MyChats = ({ windowWidth, setShowChat,showChat, scrollToBottom, fetchAgain }) => {
+const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgain }) => {
 
     // making state to stored loggedUser details
     const [loggedUser, setLoggedUser] = useState();
@@ -29,7 +30,7 @@ const MyChats = ({ windowWidth, setShowChat,showChat, scrollToBottom, fetchAgain
                 },
             };
 
-            const { data } = await axios.get("/api/chat", config);
+            const { data } = await axios.get(`${host}/api/chat`, config);
             setChats(data);
             console.log(data);
         }
@@ -51,7 +52,7 @@ const MyChats = ({ windowWidth, setShowChat,showChat, scrollToBottom, fetchAgain
         <>
 
             {/* contact message list  */}
-            <div className={`all_person_list font-overpass ${showChat?'hidden':'flex'} flex-col w-full min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md `}>
+            <div className={`all_person_list font-overpass ${showChat ? 'hidden' : 'flex'} flex-col w-full min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md `}>
                 <div className="heading_section flex items-center justify-between pt-5 px-9">
                     <h2 className="text-xl font-bold font-signika text-white">My Chats</h2>
                     {/* close icon which close popup */}
@@ -77,42 +78,54 @@ const MyChats = ({ windowWidth, setShowChat,showChat, scrollToBottom, fetchAgain
                     {
                         chats ? (
                             chats.map((chat, index) => {
+                                const chatImage = !chat.isGroupChat
+                                    ? (chat.users[1]?.pic) || ("./Images/default_user.jpg")
+                                    : "./Images/default_group.png";
+
+                                const chatName = !chat.isGroupChat
+                                    ? (chat.users[1]?.name) || ("UnknownPerson" && console.log(chat.users))
+                                    : chat.chatName || "UnknownGroup";
+
+
                                 return (
                                     <div
                                         key={index}
-                                        onClick={
-                                            () => {
-                                                if (windowWidth <= 821) {
-                                                    scrollToBottom();
-                                                    setShowChat(true)
-                                                }
-                                                setSelectedChat(chat)
-                                            }}
-                                        className="person_details  cursor-pointer w-full text-gray-100 hover:text-slate-100 gap-3 rounded hover:bg-slate-500 flex custom-transition h-14 bg-slate-400 px-5 items-center"
-                                        style={{ backgroundColor: (selectedChat === chat) ? '#38B2AC' : '#E8E8E8', color: (selectedChat === chat) ? 'white' : 'black' }}
+                                        onClick={() => {
+                                            if (windowWidth <= 821) {
+                                                scrollToBottom();
+                                                setShowChat(true);
+                                            }
+                                            setSelectedChat(chat);
+                                        }}
+                                        className="person_details cursor-pointer w-full text-gray-100 hover:text-slate-100 gap-3 rounded hover:bg-slate-500 flex custom-transition h-14 bg-slate-400 px-5 items-center"
+                                        style={{
+                                            backgroundColor: selectedChat === chat ? "#38B2AC" : "#E8E8E8",
+                                            color: selectedChat === chat ? "white" : "black",
+                                        }}
                                     >
-                                        <img className='h-10 w-10 rounded-full' src={!chat.isGroupChat?chat.users[1].pic:"./Images/default_group.png"} alt="lokeshwar" />
+                                        <img
+                                            className="h-10 w-10 rounded-full"
+                                            src={chatImage}
+                                            alt="lokeshwar"
+                                        />
                                         <div className="person_box flex flex-col py-1">
-                                            <h3 className="user_name text-sm font-500 ">
-                                                {!chat.isGroupChat
-                                                    ? getSender(loggedUser, chat.users)
-                                                    : chat.chatName
-                                                }
-                                            </h3>
-                                            <h4 className="user_email user-select-none text-[13px] "> <span className='font-300' >Email : </span> lokeshwar@gmail.com </h4>
+                                            <h3 className="user_name text-sm font-500">{chatName}</h3>
+                                            <h4 className="user_email user-select-none text-[13px]">
+                                                <span className="font-300">Email : </span>lokeshwar@gmail.com
+                                            </h4>
                                         </div>
-
                                     </div>
-                                )
+                                );
                             })
                         ) : (
                             <UserLoadStack />
                         )
                     }
+
                 </div>
             </div>
             {
-                showCreateGroup && <CreateGroupChat setShowCreateGroup={setShowCreateGroup}/>
+                showCreateGroup && <CreateGroupChat setShowCreateGroup={setShowCreateGroup} />
             }
             <ToastContainer />
         </>

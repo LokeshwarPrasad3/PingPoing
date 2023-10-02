@@ -17,7 +17,7 @@ const ChatMessages = ({ chatMessages }) => {
                                 </div>
                             </div>
 
-                            {/* for messages */}
+                            {/* message */}
 
                             {
                                 day.messages.map((message, index) => (

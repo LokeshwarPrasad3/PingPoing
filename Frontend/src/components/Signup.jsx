@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { host } from '../config/api';
 
 const Signup = () => {
 
@@ -57,7 +57,7 @@ const Signup = () => {
 
             // upload that data in cloudinary api using post method 
             fetch("https://api.cloudinary.com/v1_1/mernchatappcloud/image/upload", {
-                
+
                 //adding body method in headers
                 method: 'post', body: data
             })
@@ -117,7 +117,7 @@ const Signup = () => {
                     "Content-Type": "application/json"
                 },
             }
-            const { data } = await axios.post('./api/user', { name, email, password, pic }, config);
+            const { data } = await axios.post(`${host}/api/user`, { name, email, password, pic }, config);
             toast.success("Registration is successfull");
             // set in localStorage
             localStorage.setItem('userInfo', JSON.stringify(data));

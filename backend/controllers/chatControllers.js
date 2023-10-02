@@ -1,7 +1,5 @@
 // // HERE we define all the routes of chat operations routes
 
-const express = require('express');
-
 // getting Chat models
 const Chat = require('../models/chatModel');
 

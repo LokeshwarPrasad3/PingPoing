@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
+import { host } from '../config/api';
 
 const Login = () => {
 
@@ -46,7 +47,7 @@ const Login = () => {
                 }
             }
             // post on api /login
-            const { data } = await axios.post('/api/user/login', { email, password }, config);
+            const { data } = await axios.post(`${host}/api/user/login`, { email, password }, config);
             toast.success('Successfully Login', {
                 autoClose: 2000,
             });

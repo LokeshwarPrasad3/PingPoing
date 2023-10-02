@@ -15,6 +15,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { Badge } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { host } from '../../config/api';
 
 export default function CreateGroupChat({ setShowCreateGroup }) {
 
@@ -47,7 +48,7 @@ export default function CreateGroupChat({ setShowCreateGroup }) {
                 }
             }
             // getting data from api of search
-            const { data } = await axios.get(`/api/user?search=${search}`, config);
+            const { data } = await axios.get(`${host}/api/user?search=${search}`, config);
             setLoading(false);
             console.log(data);
             setSearchResult(data);
@@ -77,10 +78,11 @@ export default function CreateGroupChat({ setShowCreateGroup }) {
                 }
             }
 
-            const { data } = await axios.post('/api/chat/group', {
+            const { data } = await axios.post(`${host}/api/chat/group`, {
                 name: groupChatName,
-                users: JSON.stringify(selectedUser.map((u) => u._id)), //give with return array IMP
+                users: JSON.stringify(selectedUser ? selectedUser.map((u) => u._id) : []), // Use an empty array as a default if selectedUser is null
             }, config);
+
 
             // set chats
             setChats([data, ...chats])
@@ -178,11 +180,11 @@ export default function CreateGroupChat({ setShowCreateGroup }) {
                                 )
                                 :
                                 // show only start 4 user 
-                                searchResult?.slice(0, 4).map((user) => {
+                                searchResult?.slice(0, 4).map((user,index) => {
                                     return (
                                         <>
                                             <UserListItem
-                                                key={user._id}
+                                                key={index}
                                                 user={user}
                                                 handleFunction={() => handleGroup(user)}
                                             />
