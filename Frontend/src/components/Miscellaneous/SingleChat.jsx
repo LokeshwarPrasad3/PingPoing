@@ -1,35 +1,34 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { ChatState } from '../../Context/ChatProvider';
-import ChatMessages from './ChatMessages';
 import ScrollableChat from './ScrollableChat';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { getSender, getSenderImage } from '../../config/ChatLogics';
 import PreviewIcon from '@mui/icons-material/Preview';
 import UpdateGroupChatModal from '../Modals/UpdateGroupChatModal';
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { host } from '../../config/api';
 import typingAmimation from '../../Animation/chat-animation.json';
-
+import Lottie from 'react-lottie';
 
 
 import io from 'socket.io-client'
-import Lottie from 'react-lottie';
-const ENDPOINT = "http://localhost:5000";
+// getting host which send request for socket
+const ENDPOINT = host;
 var socket, selectedChatCompare;
 
 const SingleChat = (props) => {
 
     const {
         fetchAgain, setFetchAgain,
-        setShowChat, showChat
+        setShowChat
     } = props;
 
+    // for checking if user not type then dont show typing...
     const typingTimeoutRef = useRef(null);
+    // using for bottom scrolled page when chat
     const chatContainerRef = useRef(null);
 
     // State for socket
@@ -39,12 +38,13 @@ const SingleChat = (props) => {
     const [socketConnected, setSocketConnected] = useState(false);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
+    
 
-    // typig indicator options 
+    // typig indicator options  (for react-lottie typing indicator)
     const defaultOptions = {
         loop: true,
         autoplay: true,
-        animationData: typingAmimation,
+        animationData: typingAmimation, // path of json file
         rendererSettings: {
             preserveAspectRatio: "xMidYMid slice",
           },
@@ -53,8 +53,10 @@ const SingleChat = (props) => {
     // Showing group profiles
     const [showProfile, setShowProfile] = useState(false);
 
+    // getting from context api
     const { user, selectedChat, setSelectedChat, notification, setNotification } = ChatState();
 
+    // fetch all message from db
     const fetchMessages = async () => {
         if (!selectedChat) return;
         try {
@@ -78,8 +80,9 @@ const SingleChat = (props) => {
         }
     }
 
-    // send message
+    // clicked to send message then 
     const sendMessage = async (e) => {
+        // first stop display typing.. indicator
             socket.emit('stop typing', selectedChat._id);
             try {
                 const config = {
@@ -88,76 +91,109 @@ const SingleChat = (props) => {
                     Authorization: `Bearer ${user.token}`
                 },
             };
-            setNewMessage("");
-
+            setNewMessage(""); // input make blank
+            // send data to backend
             const { data } = await axios.post(`${host}/api/message`, {
                 content: newMessage,
                 chatId: selectedChat // change
             }, config);
 
-            // socket
+            console.log("Your Message " + data);
+            // console.log(data.content);
+
+            // send socket new message received
             socket.emit('new message', data);
-            // apend messages
-            setMessages([...messages, data]); // changed
-            // fetchMessages();
+            // append message 
+                setMessages([...messages, data]);
         }
         catch (error) {
-            toast.error("Error during sending messages");
-
-        
+            toast.error("Error during sending messages");        
             }
+        }
+    
 
-    }
-
-        // For established socket connection
+        // 1st useEfffect For established socket connection
         useEffect(() => {
             socket = io(ENDPOINT);
-    
+    // if user then only do that
             if (user) {
+                // setup socket that user is online
                 socket.emit("setup", user);
-                socket.on('connected', () => setSocketConnected(true));
-                socket.on('typing', () => setIsTyping(true));
-                socket.on('stop typing', () => setIsTyping(false));
+                socket.on('connected', () => {
+                    setSocketConnected(true);
+                });
+      
+                // TYPING INDICATOR sockets
+
+                // eslint-disable-next-line
+                const chatId = selectedChat?._id;
+                socket.on('typing', (chatId) => {
+                setIsTyping(true);
+                });
+
+                socket.on('stop typing', (chatId) => {
+                setIsTyping(false);
+                });
+
+                console.log("User socket connected ");
             } 
             else {
                 // Handle the case where the user is not loaded
-                console.log("User is not loaded, unable to emit 'setup' event.");
+                console.log("Unable to connect socket");
             }
+
+            return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
+
             // eslint-disable-next-line
-        }, []);
+        }, [user,selectedChat]);
     
     
-        // main useEffect
+        // main useEffect : if clicked to chat then fetch all messaages
         useEffect(() => {
             fetchMessages();
-    
+           
             selectedChatCompare = selectedChat;
             // eslint-disable-next-line
         }, [selectedChat]);
-    
-    
-        // socket 
-        useEffect(() => {
-            socket.on('message received', (newMessageReceived) => {
-                if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-                    // fetchMessages();
-    
-                    if (!notification.includes(newMessageReceived)) {
-                        setNotification([...notification, newMessageReceived]);
-                        setFetchAgain(!fetchAgain);
-                    }
-                } else {
-                    setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
-                    // fetchMessages();
-    
-                }
-            })
-    
-            // Scroll to the bottom whenever messages change
-            scrollToBottom();
-    
-        }, [messages, selectedChat]);
-        // });
+
+
+//Message receive Socket useEffect
+useEffect(() => {
+
+    const handleNewMessage = (newMessageReceived) => {
+        console.log("new message received", newMessageReceived);
+
+// if user is receiver and not in any of user chat then show notification
+        if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
+            if (!notification.includes(newMessageReceived)) {
+          // Update the notification state
+          setNotification((prevNotification) => [...prevNotification, newMessageReceived]);
+          setFetchAgain(!fetchAgain);
+                setFetchAgain(!fetchAgain);
+            }
+        } // if user is in the chat online
+        else {
+            setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
+        }
+    };
+
+    socket.on('message received', handleNewMessage);
+
+    return () => {
+        socket.off('message received', handleNewMessage);
+    }
+// eslint-disable-next-line
+}, [selectedChat]);
+
+// Scroll to bottom whenever messages loaded
+useEffect(() => {
+    scrollToBottom();
+}, [messages]);
+
 
     // Scroll to the bottom function
     const scrollToBottom = () => {
@@ -167,10 +203,10 @@ const SingleChat = (props) => {
         }
     };
 
+
+    // Typing indicator logic
     const typingHandler = (e) => {
         setNewMessage(e.target.value);
-
-        // Typing indicator logic
         if (!socketConnected || !selectedChat) return;
 
         if (!typing) {
@@ -195,7 +231,7 @@ const SingleChat = (props) => {
     };
 
 
-    // if clcked to enter then go send
+    // if user pressed enter then go send message
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -207,7 +243,6 @@ const SingleChat = (props) => {
     const closeGroupPopup = () => {
         setShowProfile(!showProfile);
     }
-
 
 
     return (
@@ -259,9 +294,9 @@ const SingleChat = (props) => {
                             }
                         </div>
                         {/* messages adn send message box */}
-                        <div className='overflow-y-auto bg-slate-600 px-2 flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2' >
+                        <div className='overflow-y-auto bg-slate-600  flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2' >
 
-                            <div ref={chatContainerRef} className="messagesb_box_container bg-slate-600 px-2 pr-5 overflow-x-auto min-h-[79vh] max-h-[80vh]">
+                            <div ref={chatContainerRef} className="messagesb_box_container bg-slate-600 overflow-x-auto min-h-[79vh] max-h-[80vh]">
                                 {
                                     loading ? (
                                         <div className='relative h-[80vh] flex justify-center items-center'>

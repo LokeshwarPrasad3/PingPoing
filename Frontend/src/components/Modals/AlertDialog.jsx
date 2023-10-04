@@ -1,4 +1,3 @@
-// AlertDialog.jsx
 import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -7,7 +6,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import { ChatState } from '../../Context/ChatProvider';
 
 function AlertDialog({ isOpen, onClose, user }) {
 

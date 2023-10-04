@@ -19,14 +19,11 @@ const ChatMessages = ({ chatMessages }) => {
                     const [year, month, day] = chat.chat.createdAt.slice(0, 10).split("-"); // Split the input date by hyphens
                     const messageDate = `${parseInt(month)}/${parseInt(day)}/${year}`;
 
-                    {/* const messageDate = ''; */}
-
                     // Check if the date has changed since the last message
                     const showDate = currentDate !== messageDate;
 
                     // Update currentDate with the new date
                     currentDate = messageDate;
-
 
 
                     return (
@@ -44,13 +41,20 @@ const ChatMessages = ({ chatMessages }) => {
                                 className={`message_box_right w-full flex ${user?.name === chat?.sender?.name ? 'justify-end' : ''
                                     } my-2 gap-1`}
                             >
+                                {
+                                   (selectedChat.isGroupChat &&   (user?.name !== chat?.sender?.name)) &&
+                                <img className={`w-6 h-6 ${selectedChat.isGroupChat ? '' : 'hidden'} rounded-full border-[1px] border-gray-800`} src={chat?.sender?.pic} alt="user" srcSet="" />
+                                }
                                 <div
                                     className={`message flex ${user?.name === chat?.sender?.name ? 'bg-green-700' : 'bg-slate-800'} px-2 py-[1px] w-fit max-w-[60%] rounded-md rounded-tr-none`}>
                                     <p className="message_name text-[1.2rem] text-gray-100">
                                         {chat.content}
                                     </p>
                                 </div>
-                                <img className={`w-7 h-7 ${selectedChat.isGroupChat ? '' : 'hidden'} rounded-full border-[1px] border-gray-800`} src="./Images/lokeshwar.jpg" srcSet="" />
+                                {
+                                    (selectedChat.isGroupChat && (user?.name === chat?.sender?.name)) &&
+                                <img className={`w-6 h-6 ${selectedChat.isGroupChat ? '' : 'hidden'} rounded-full border-[1px] border-gray-800`} src={user.pic} alt="user" srcSet="" />
+                                }
                             </div>
 
                         </React.Fragment>

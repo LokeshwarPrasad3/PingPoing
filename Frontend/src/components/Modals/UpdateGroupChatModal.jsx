@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -23,11 +22,9 @@ export default function UpdateGroupChatModal(props) {
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [loading, setLoading] = useState(false);
+    // eslint-disable-next-line
     const [renameLoading, setRenameLoading] = useState(false);
 
-    const handleRemove = () => {
-
-    }
 
     // Rename the grup
     const handleGroupRename = async () => {

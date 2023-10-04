@@ -21,6 +21,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
     // show hide group making modal
     const [showCreateGroup, setShowCreateGroup] = useState(false);
 
+    // fetching all the chats
     const fetchChats = async () => {
         try {
             const config = {
@@ -40,6 +41,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
     }
 
     useEffect(() => {
+        // getting loggedUser data from localstorage
         setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
         fetchChats();
         console.log(chats);
@@ -54,7 +56,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
             <div className={`all_person_list font-overpass ${showChat ? 'hidden' : 'flex'} flex-col w-full min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md `}>
                 <div className="heading_section flex items-center justify-between pt-5 px-9">
                     <h2 className="text-xl font-bold font-signika text-white">My Chats</h2>
-                    {/* close icon which close popup */}
+
                     <div className="close_button flex items-center justify-around gap-1 px-2 py-1 cursor-pointer bg-gray-300 rounded ">
                         <h2 className="font-signika "
                             onClick={() => setShowCreateGroup(true)}
@@ -63,32 +65,22 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                         />
                     </div>
                 </div>
+
                 {/* three filters connect group */}
                 <div className="person_filters flex justify-center gap-3 items-center py-2 h-16">
                     <button className='fav_button' >All</button>
                     <button className='fav_button' >Friends</button>
                     <button className='fav_button' >Groups</button>
                 </div>
+
                 {/* list of persons */}
                 <div
                     className="person_list flex flex-col gap-2 px-1 font-overpass justify-center items-center py-1 rounded h-full ">
 
-                    {/* render chat */}
+                    {/* render chat particular users */}
                     {
                         chats ? (
                             chats.map((chat, index) => {
-                                let yourFriend = chat.users.filter((users)=>{
-                                    return users.name !== user.name;
-                                })
-
-                                    {/* ? (chat.users[1]?.pic) || ("./Images/default_user.jpg") */}
-                                const chatImage = !chat.isGroupChat
-                                    ? (yourFriend?.pic) || ("./Images/default_user.jpg")
-                                    : "./Images/default_group.png";
-
-                                const chatName = !chat.isGroupChat
-                                    ? (chat.users[1]?.name) || ("UnknownPerson" && console.log(chat.users))
-                                    : chat.chatName || "UnknownGroup";
 
                                 return (
                                     <div
@@ -106,6 +98,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                                             color: selectedChat === chat ? "white" : "black",
                                         }}
                                     >
+                                        {/* image of chatlist user */}
                                         <img
                                             className="h-10 w-10 rounded-full"
                                             src={chat.isGroupChat ? "./Images/default_group.png" : getSenderImage(loggedUser, chat.users)}
@@ -121,15 +114,17 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                                 );
                             })
                         ) : (
+                            // display loading stack 
                             <UserLoadStack />
                         )
                     }
-
                 </div>
             </div>
             {
+                // create group popup
                 showCreateGroup && <CreateGroupChat setShowCreateGroup={setShowCreateGroup} />
             }
+            
             <ToastContainer />
         </>
     )

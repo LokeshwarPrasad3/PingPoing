@@ -4,16 +4,13 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { ToastContainer, toast } from 'react-toastify';
 import { ChatState } from '../../Context/ChatProvider';
 import axios from 'axios';
 import UserListItem from '../Miscellaneous/UserListItem';
-import UserLoadStack from './UserLoadStack';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { Badge } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { host } from '../../config/api';
 
@@ -111,7 +108,7 @@ export default function CreateGroupChat({ setShowCreateGroup }) {
     };
 
     return (
-        <div>
+        <>
             <Dialog open={true} onClose={handleClose} >
                 <DialogTitle>Create Group Chat</DialogTitle>
                 <DialogContent>
@@ -200,6 +197,10 @@ export default function CreateGroupChat({ setShowCreateGroup }) {
                     <Button onClick={handleSubmit} variant="contained" >Create</Button>
                 </DialogActions>
             </Dialog>
-        </div>
+
+
+
+            <ToastContainer/>
+        </>
     );
 }

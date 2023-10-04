@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
 import Navbar from '../components/Miscellaneous/Navbar';
 import '../CSS/style.css';
 import MyChats from '../components/Miscellaneous/MyChats';
@@ -7,6 +6,7 @@ import ChatBox from '../components/Miscellaneous/ChatBox';
 import { ChatState } from '../Context/ChatProvider';
 
 const ChatPage = () => {
+    // Getting from context api
     const { user } = ChatState();
 
     const [fetchAgain, setFetchAgain] = useState(false);
@@ -14,19 +14,10 @@ const ChatPage = () => {
     // chat show or not
     const [showChat, setShowChat] = useState(false);
 
-    // always open keyboard for typing
-    const inputRef = useRef(null);
-
     // Using state to set innerWidth of Windows
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-    // state which input typed by user
-    const [messageInput, setMessageInput] = useState("");
-
     const messagesContainerRef = useRef(null); // Create a ref for the messages container
-
-    // all chat messages stored here
-    // const [chatMessages, setChatMessages] = useState(tempMessages);
 
     const scrollToBottom = () => {
         if (messagesContainerRef.current && showChat) {
@@ -35,8 +26,6 @@ const ChatPage = () => {
     };
 
     useEffect(() => {
-       
-
         scrollToBottom(); // Initial scroll to the bottom when chat loads
 
         const handleResize = () => {
@@ -54,40 +43,9 @@ const ChatPage = () => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
+        // eslint-disable-next-line
     }, [showChat, windowWidth]);
 
-
-
-
-    // Send message to friend
-    // const sendMessage = () => {
-    //     if (messageInput.trim() === "") {
-    //         toast.warn("Please Enter input!");
-    //         return; // Exit early if input is empty
-    //     }
-
-    //     const currentMessage = {
-    //         sender: 'user',
-    //         message: messageInput,
-    //         time: new Date().toISOString(), // Use a unique timestamp
-    //     }
-
-    //     const currDate = new Date().toLocaleDateString();
-    //     const todayMessageIndex = chatMessages.findIndex(message => message.date === currDate);
-
-    //     if (todayMessageIndex !== -1) {
-    //         // Create a copy of chatMessages to update the state
-    //         // const updatedChatMessages = [...chatMessages];
-    //         // updatedChatMessages[todayMessageIndex].messages.push(currentMessage);
-
-    //         // Update the state to trigger a re-render
-    //         setChatMessages(updatedChatMessages);
-    //     }
-
-    //     // Clear the message input after sending
-    //     setMessageInput(' ');
-    //     inputRef.current.focus();
-    // }
 
     return (
         <>
@@ -105,6 +63,7 @@ const ChatPage = () => {
                 }
 
                 {/* mesage person and all messages */}
+                {/* handle when mobile then clicked to chat then show chatBox */}
                 {
                     ((windowWidth >= 821) || (windowWidth <= 821 && showChat)) &&
                     <ChatBox
@@ -117,10 +76,6 @@ const ChatPage = () => {
                     />
                 }
             </div>
-
-            <ToastContainer />
-
-
         </>
     )
 }

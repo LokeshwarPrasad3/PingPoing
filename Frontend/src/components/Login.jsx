@@ -49,7 +49,7 @@ const Login = () => {
             // post on api /login
             const { data } = await axios.post(`${host}/api/user/login`, { email, password }, config);
             toast.success('Successfully Login', {
-                autoClose: 2000,
+                autoClose: 1000,
             });
             console.log(data);
 
@@ -64,7 +64,7 @@ const Login = () => {
                 setLoading(false);
                 // navigate to chat section successfully done
                 navigate('/chats');
-            }, 3000);
+            }, 2000);
         } catch (error) {
             toast.error("Invalid User");
             setLoading(false);

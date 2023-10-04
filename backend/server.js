@@ -93,17 +93,26 @@ io.on("connection", (socket) => {
     })
 
     // typing functionality
-    socket.on('typing', (room)=> socket.in(room).emit("typing") );
-    socket.on('stop typing', (room)=> socket.in(room).emit("stop typing") );
+    socket.on('typing', (room) => {
+        socket.in(room).emit("typing");
+    });
+    socket.on('stop typing', (room) =>
+    {
+        socket.in(room).emit("stop typing");
+    });
 
     // send message socket
     socket.on('new message', (newMessageReceived) => {
+        console.log("New message content"+ newMessageReceived.content);
+        console.log("New message sender"+ newMessageReceived.sender.name);
         var chat = newMessageReceived.chat;
 
         if(!chat.users) return console.log('chat.users not defined');
 
         chat.users.forEach((user)=>{
             if(user._id == newMessageReceived.sender._id) return; // sender
+
+            console.log("REady to send message")
 
             socket.in(user._id).emit("message received", newMessageReceived);
         })
