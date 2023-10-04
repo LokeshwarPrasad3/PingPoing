@@ -19,27 +19,24 @@ import typingAmimation from '../../Animation/chat-animation.json';
 
 import io from 'socket.io-client'
 import Lottie from 'react-lottie';
-const ENDPOINT = host;
+const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
 
 const SingleChat = (props) => {
-    const typingTimeoutRef = useRef(null);
-    const chatContainerRef = useRef(null);
 
     const {
-        // sendMessage, 
-        inputRef,
-        chatMessages, messageInput, setMessageInput,
         fetchAgain, setFetchAgain,
         setShowChat, showChat
     } = props;
 
-    // State for socket
-    const [socketConnected, setSocketConnected] = useState(false);
+    const typingTimeoutRef = useRef(null);
+    const chatContainerRef = useRef(null);
 
+    // State for socket
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState([]);
+    const [socketConnected, setSocketConnected] = useState(false);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
 
@@ -50,16 +47,13 @@ const SingleChat = (props) => {
         animationData: typingAmimation,
         rendererSettings: {
             preserveAspectRatio: "xMidYMid slice",
-        },
+          },
     }
 
     // Showing group profiles
     const [showProfile, setShowProfile] = useState(false);
 
-
     const { user, selectedChat, setSelectedChat, notification, setNotification } = ChatState();
-
-
 
     const fetchMessages = async () => {
         if (!selectedChat) return;
@@ -86,9 +80,9 @@ const SingleChat = (props) => {
 
     // send message
     const sendMessage = async (e) => {
-        socket.emit('stop typing', selectedChat._id);
-        try {
-            const config = {
+            socket.emit('stop typing', selectedChat._id);
+            try {
+                const config = {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${user.token}`
@@ -105,64 +99,65 @@ const SingleChat = (props) => {
             socket.emit('new message', data);
             // apend messages
             setMessages([...messages, data]); // changed
-            fetchMessages();
+            // fetchMessages();
         }
         catch (error) {
             toast.error("Error during sending messages");
 
-        }
+        
+            }
 
     }
 
-
-
-    // For established socket connection
-    useEffect(() => {
-        socket = io(ENDPOINT);
-
-        if (user) {
-            socket.emit("setup", user);
-            socket.on('connected', () => setSocketConnected(true));
-            socket.on('typing', () => setIsTyping(true));
-            socket.on('stop typing', () => setIsTyping(false));
-        } else {
-            // Handle the case where the user is not loaded
-            console.log("User is not loaded, unable to emit 'setup' event.");
-        }
-        fetchMessages();
-    }, []);
-
-    // main useEffect
-    useEffect(() => {
-        fetchMessages();
-
-        // socket 
-        selectedChatCompare = selectedChat;
-    }, [selectedChat]);
-
-    console.log(notification, "...........");
-
-    // socket 
-    useEffect(() => {
-        socket.on('message received', (newMessageReceived) => {
-            if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-                fetchMessages();
-
-                if (!notification.includes(newMessageReceived)) {
-                    setNotification([...notification, newMessageReceived]);
-                    setFetchAgain(!fetchAgain);
-                }
-            } else {
-                setMessages([...messages, newMessageReceived]);
-                fetchMessages();
-
+        // For established socket connection
+        useEffect(() => {
+            socket = io(ENDPOINT);
+    
+            if (user) {
+                socket.emit("setup", user);
+                socket.on('connected', () => setSocketConnected(true));
+                socket.on('typing', () => setIsTyping(true));
+                socket.on('stop typing', () => setIsTyping(false));
+            } 
+            else {
+                // Handle the case where the user is not loaded
+                console.log("User is not loaded, unable to emit 'setup' event.");
             }
-        })
-
-        // Scroll to the bottom whenever messages change
-        scrollToBottom();
-
-    }, [messages]);
+            // eslint-disable-next-line
+        }, []);
+    
+    
+        // main useEffect
+        useEffect(() => {
+            fetchMessages();
+    
+            selectedChatCompare = selectedChat;
+            // eslint-disable-next-line
+        }, [selectedChat]);
+    
+    
+        // socket 
+        useEffect(() => {
+            socket.on('message received', (newMessageReceived) => {
+                if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
+                    // fetchMessages();
+    
+                    if (!notification.includes(newMessageReceived)) {
+                        setNotification([...notification, newMessageReceived]);
+                        setFetchAgain(!fetchAgain);
+                    }
+                } else {
+                    setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
+                    // fetchMessages();
+    
+                }
+            })
+    
+            // Scroll to the bottom whenever messages change
+            scrollToBottom();
+    
+        }, [messages, selectedChat]);
+        // });
 
     // Scroll to the bottom function
     const scrollToBottom = () => {
@@ -179,8 +174,8 @@ const SingleChat = (props) => {
         if (!socketConnected || !selectedChat) return;
 
         if (!typing) {
-            socket.emit('typing', selectedChat._id);
             setTyping(true);
+            socket.emit('typing', selectedChat._id);
         }
 
         // When to stop typing after 3 seconds of inactivity
@@ -196,6 +191,7 @@ const SingleChat = (props) => {
                 setTyping(false);
             }
         }, timerLength);
+
     };
 
 
@@ -211,6 +207,8 @@ const SingleChat = (props) => {
     const closeGroupPopup = () => {
         setShowProfile(!showProfile);
     }
+
+
 
     return (
         <>
@@ -243,7 +241,7 @@ const SingleChat = (props) => {
                                         (
                                             <>
                                                 <div className="receiver_details flex items-center gap-2  px-3">
-                                                    <img className='h-11 w-11 rounded-full cursor-pointer' src={getSenderImage(user, selectedChat.users)} alt="" srcSet="" />
+                                                    <img className='h-11 w-11 rounded-full cursor-pointer' src='./Images/default_group.png' alt="" srcSet="" />
                                                     <div className="person_online flex flex-col justify-center ">
                                                         <h3 className='text-2xl uppercase font-bree' >{selectedChat.chatName}</h3>
                                                     </div>

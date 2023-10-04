@@ -4,7 +4,7 @@ import { ChatState } from '../../Context/ChatProvider';
 // we need component and css 
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
-import { getSender } from '../../config/ChatLogics';
+import { getSender, getSenderEmail, getSenderImage } from '../../config/ChatLogics';
 import UserLoadStack from '../Modals/UserLoadStack';
 import CreateGroupChat from '../Modals/CreateGroupChat'
 import { host } from '../../config/api';
@@ -15,18 +15,17 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
     // making state to stored loggedUser details
     const [loggedUser, setLoggedUser] = useState();
 
-    // show hide group making modal
-    const [showCreateGroup, setShowCreateGroup] = useState(false);
-
     // getting details from contextAPI
     const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
 
+    // show hide group making modal
+    const [showCreateGroup, setShowCreateGroup] = useState(false);
 
     const fetchChats = async () => {
         try {
             const config = {
                 headers: {
-                    "Authorization": `Bearer ${user.token}`,
+                    Authorization: `Bearer ${user.token}`,
                 },
             };
 
@@ -67,8 +66,8 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                 {/* three filters connect group */}
                 <div className="person_filters flex justify-center gap-3 items-center py-2 h-16">
                     <button className='fav_button' >All</button>
-                    <button className='fav_button' >Connect</button>
-                    <button className='fav_button' >Group</button>
+                    <button className='fav_button' >Friends</button>
+                    <button className='fav_button' >Groups</button>
                 </div>
                 {/* list of persons */}
                 <div
@@ -78,14 +77,18 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                     {
                         chats ? (
                             chats.map((chat, index) => {
+                                let yourFriend = chat.users.filter((users)=>{
+                                    return users.name !== user.name;
+                                })
+
+                                    {/* ? (chat.users[1]?.pic) || ("./Images/default_user.jpg") */}
                                 const chatImage = !chat.isGroupChat
-                                    ? (chat.users[1]?.pic) || ("./Images/default_user.jpg")
+                                    ? (yourFriend?.pic) || ("./Images/default_user.jpg")
                                     : "./Images/default_group.png";
 
                                 const chatName = !chat.isGroupChat
                                     ? (chat.users[1]?.name) || ("UnknownPerson" && console.log(chat.users))
                                     : chat.chatName || "UnknownGroup";
-
 
                                 return (
                                     <div
@@ -105,13 +108,13 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                                     >
                                         <img
                                             className="h-10 w-10 rounded-full"
-                                            src={chatImage}
+                                            src={chat.isGroupChat ? "./Images/default_group.png" : getSenderImage(loggedUser, chat.users)}
                                             alt="lokeshwar"
                                         />
                                         <div className="person_box flex flex-col py-1">
-                                            <h3 className="user_name text-sm font-500">{chatName}</h3>
+                                            <h3 className="user_name text-sm font-500">{chat.isGroupChat?chat.chatName:getSender(user,chat.users)}</h3>
                                             <h4 className="user_email user-select-none text-[13px]">
-                                                <span className="font-300">Email : </span>lokeshwar@gmail.com
+                                                <span className="font-300">{chat.isGroupChat ? "" : 'Email : '}</span>{chat.isGroupChat ? "": getSenderEmail(user, chat.users)}
                                             </h4>
                                         </div>
                                     </div>
@@ -133,3 +136,6 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
 }
 
 export default MyChats
+
+
+

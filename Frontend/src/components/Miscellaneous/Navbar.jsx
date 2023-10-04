@@ -58,7 +58,7 @@ const Navbar = () => {
             <nav className="h-[65px] navbar_container flex items-center justify-between px-5 py-2 bg-slate-200">
                 {/* Search box inside the navbar */}
                 <div className="search_box flex items-center justify-around cursor-pointer ">
-                    <SearchIcon style={{ fontSize: '2rem' }} />
+                    <SearchIcon style={{ fontSize: '1.2rem' }} />
                     <Tooltip title="Search User">
                         <Button
                             onClick={() => {
@@ -69,7 +69,7 @@ const Navbar = () => {
                                 fontWeight: 'bold',
                                 color: 'black',
                                 textTransform: 'capitalize',
-                                fontSize: '1.3rem',
+                                fontSize: '1rem',
                                 fontFamily: 'signika negative',
                             }}
                         >
@@ -80,15 +80,15 @@ const Navbar = () => {
 
                 {/* Heading of navbar section */}
                 <div className="heading_box flex items-center justify-center ">
-                    <h1 className="heading text-2xl font-signika font-semibold opacity-80 ">Your-Chat-App</h1>
+                    <h1 className="heading text-xl font-signika font-semibold opacity-80 ">Chat-App</h1>
                 </div>
 
                 {/* Edit profile and notification section */}
-                <div className="profile_and_message flex gap-5">
+                <div className="profile_and_message flex gap-2">
 
                     {/* show notificaiton when clicked */}
 
-                    <div className="show_notifications absolute top-12 right-[8vw] border-[1px] bg-blue-200 rounded-md flex flex-col gap-[2px] justify-center items-start overflow-hidden max-w-[18rem]">
+                    <div className="show_notifications absolute top-12 right-[8vw] border-[1px] bg-blue-200 rounded-md flex flex-col gap-[2px] justify-center items-start overflow-hidden max-w-[20rem]">
 
                         {
                             showNotification && (
@@ -111,7 +111,7 @@ const Navbar = () => {
                                                     <h1 className='text-black' >
                                                         {
                                                             notif.chat.isGroupChat ?
-                                                                `New Message in ${notif.chat.ChatName.toString().slice(0,16)}..`
+                                                                `New Message in ${(notif.chat.chatName)}`
                                                                 : `New Message from ${getSender(user, notif.chat.users).substring(0, 15) }..`
                                                         }
                                                     </h1>

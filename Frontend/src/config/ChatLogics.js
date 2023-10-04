@@ -4,6 +4,9 @@
 export const getSender = (loggedUser, users) => {
     return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
 }
+export const getSenderEmail = (loggedUser, users) => {
+    return users[0]._id === loggedUser._id ? users[1].email : users[0].email;
+}
 
 // export const getSenderImage = (loggedUser, users) => {
 //     return users[0]._id === loggedUser._id ? users[1].pic : users[0].pic;
@@ -32,7 +35,14 @@ export const getSenderImage = (loggedUser, users) => {
     }
 
     // Handle group chat or other scenarios
-    const otherUser = users.find(user => user && user._id !== loggedUser._id);
+    // const otherUser = users.find(user => user && user._id !== loggedUser._id);
+    const otherUser = users.find(user => {
+        if (user && user._id !== undefined) {
+            return user._id !== loggedUser._id;
+        }
+        return false; // Return false if user is undefined or user._id is undefined
+    });
+    
 
     if (!otherUser || !otherUser.pic) {
         // Handle cases where the other user or their pic is missing

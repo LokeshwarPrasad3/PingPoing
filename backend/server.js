@@ -31,9 +31,9 @@ app.use(cors());
 
 
 // make first server
-app.get('/', (req, res) => {
-    res.send("API IS RUNNING");
-})
+// app.get('/', (req, res) => {
+//     res.send("API IS RUNNING");
+// })
 
 
 // WE ONLY MAKE END POINT IN SERVER.js and we elaborate in different section for readable code
@@ -93,8 +93,8 @@ io.on("connection", (socket) => {
     })
 
     // typing functionality
-    socket.on('typing', (room)=>{ socket.in(room).emit("typing") })
-    socket.on('stop typing', (room)=>{ socket.in(room).emit("stop typing") })
+    socket.on('typing', (room)=> socket.in(room).emit("typing") );
+    socket.on('stop typing', (room)=> socket.in(room).emit("stop typing") );
 
     // send message socket
     socket.on('new message', (newMessageReceived) => {

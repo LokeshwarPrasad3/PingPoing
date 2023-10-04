@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { previousTempMessages } from './tempMessage';
 import Navbar from '../components/Miscellaneous/Navbar';
 import '../CSS/style.css';
 import MyChats from '../components/Miscellaneous/MyChats';
@@ -26,40 +25,8 @@ const ChatPage = () => {
 
     const messagesContainerRef = useRef(null); // Create a ref for the messages container
 
-
-
-    // store all messages of user
-    const tempMessages = [
-        ...previousTempMessages,
-        {
-            date: new Date().toLocaleDateString(),
-            messages: [
-                {
-                    sender: 'user',
-                    message: 'Hii Bro Good Morning!',
-                    time: '1'
-                },
-                {
-                    sender: 'friend',
-                    message: 'Hii Bro Good Morning!',
-                    time: '2'
-                },
-                {
-                    sender: 'user',
-                    message: 'What are you doing!',
-                    time: '3'
-                },
-                {
-                    sender: 'friend',
-                    message: 'I am making backend api from whole night!',
-                    time: '4'
-                },
-            ]
-        }
-    ]
-
     // all chat messages stored here
-    const [chatMessages, setChatMessages] = useState(tempMessages);
+    // const [chatMessages, setChatMessages] = useState(tempMessages);
 
     const scrollToBottom = () => {
         if (messagesContainerRef.current && showChat) {
@@ -87,40 +54,40 @@ const ChatPage = () => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, [chatMessages, showChat, windowWidth]);
+    }, [showChat, windowWidth]);
 
 
 
 
     // Send message to friend
-    const sendMessage = () => {
-        if (messageInput.trim() === "") {
-            toast.warn("Please Enter input!");
-            return; // Exit early if input is empty
-        }
+    // const sendMessage = () => {
+    //     if (messageInput.trim() === "") {
+    //         toast.warn("Please Enter input!");
+    //         return; // Exit early if input is empty
+    //     }
 
-        const currentMessage = {
-            sender: 'user',
-            message: messageInput,
-            time: new Date().toISOString(), // Use a unique timestamp
-        }
+    //     const currentMessage = {
+    //         sender: 'user',
+    //         message: messageInput,
+    //         time: new Date().toISOString(), // Use a unique timestamp
+    //     }
 
-        const currDate = new Date().toLocaleDateString();
-        const todayMessageIndex = chatMessages.findIndex(message => message.date === currDate);
+    //     const currDate = new Date().toLocaleDateString();
+    //     const todayMessageIndex = chatMessages.findIndex(message => message.date === currDate);
 
-        if (todayMessageIndex !== -1) {
-            // Create a copy of chatMessages to update the state
-            const updatedChatMessages = [...chatMessages];
-            updatedChatMessages[todayMessageIndex].messages.push(currentMessage);
+    //     if (todayMessageIndex !== -1) {
+    //         // Create a copy of chatMessages to update the state
+    //         // const updatedChatMessages = [...chatMessages];
+    //         // updatedChatMessages[todayMessageIndex].messages.push(currentMessage);
 
-            // Update the state to trigger a re-render
-            setChatMessages(updatedChatMessages);
-        }
+    //         // Update the state to trigger a re-render
+    //         setChatMessages(updatedChatMessages);
+    //     }
 
-        // Clear the message input after sending
-        setMessageInput(' ');
-        inputRef.current.focus();
-    }
+    //     // Clear the message input after sending
+    //     setMessageInput(' ');
+    //     inputRef.current.focus();
+    // }
 
     return (
         <>
@@ -141,20 +108,12 @@ const ChatPage = () => {
                 {
                     ((windowWidth >= 821) || (windowWidth <= 821 && showChat)) &&
                     <ChatBox
-                        messagesContainerRef={messagesContainerRef}
-                        sendMessage={sendMessage}
-                        chatMessages={chatMessages}
-                        messageInput={messageInput}
-                        setMessageInput={setMessageInput}
-                        inputRef={inputRef}
 
                         fetchAgain={fetchAgain}
                         setFetchAgain={setFetchAgain}
 
                         setShowChat={setShowChat}
                         showChat={showChat}
-                        scrollToBottom={scrollToBottom} 
-
                     />
                 }
             </div>
