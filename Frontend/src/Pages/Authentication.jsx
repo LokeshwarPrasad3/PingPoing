@@ -27,8 +27,8 @@ const HomePage = () => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
     // if user logged in redirected to chat page
-    if (userInfo) {
-      navigate("/chats");
+    if (!userInfo) {
+      navigate("/auth");
     }
   }, [navigate]); // dependency navigate change then call
 

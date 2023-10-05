@@ -122,7 +122,7 @@ const Signup = () => {
             localStorage.setItem('userInfo', JSON.stringify(data));
             setLoading(false);
             // navigate to chat section successfully done
-            navigate('/chats');
+            navigate('/');
         }
         catch (error) {
             toast.error("Error Occured");
@@ -181,7 +181,12 @@ const Signup = () => {
                             value={cpassword}
                             onChange={(e) => setCPassword(e.target.value)} // set value when change
                             type={showPass ? 'text' : 'password'} name="create_input_cpassword" id="create_input_cpassword" className='py-1 px-3 w-full bg-gray-100' placeholder='Confirm Password' autoComplete="new-password" />
-                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
+                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">
+                        {showPass ?
+                         <VisibilityIcon /> 
+                         : <VisibilityOffIcon/>
+                         }
+                        </button>
                     </div>
                 </div>
 

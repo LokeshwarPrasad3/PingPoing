@@ -10,7 +10,7 @@ import ProfileModal from '../Modals/ProfileModal'; // Use uppercase 'P' in the i
 import { getSender } from '../../config/ChatLogics';
 import Badge from '@mui/material/Badge';
 
-const Navbar = ({setShowChat}) => {
+const Navbar = ({setShowChat,windowWidth}) => {
 
     // eslint-disable-next-line
     const [getUser, setGetUser] = useState({});
@@ -44,9 +44,11 @@ const Navbar = ({setShowChat}) => {
 
 
     useEffect(() => {
+        
         setGetUser(user);
-        console.log(user);
-    }, [user])
+        
+
+    }, [user, getUser])
 
     return (
         <>
@@ -114,7 +116,7 @@ const Navbar = ({setShowChat}) => {
                                                     // Update the state to reflect the changes.
                                                     setNotification(updatedNotifications);
                                                     setShowNotification(false);
-                                                    setShowChat(true);
+                                                    if(windowWidth<=821){ setShowChat(true);  }
                                                 }}
                                                 className="box_notification bg-blue-300 cursor-pointer hover:bg-blue-400 custom-transition w-full font-overpass shadow-sm shadow-gray-400 px-2 h-8 flex items-center"
                                             >
@@ -154,7 +156,7 @@ const Navbar = ({setShowChat}) => {
                     <div className="show_profile_button flex items-center   ">
 
                         <div className="show_profile flex cursor-pointer ">
-                            <img className='w-8 h-8 rounded-full border-[1px] border-gray-800' src={(user ? user.pic : "")} alt={user ? user.name : ""} srcSet="" />
+                            <img className='w-8 h-8 rounded-full border-[1px] border-gray-800' src={getUser ? getUser.pic : ""} alt={getUser?getUser.name:""} srcSet="" />
 
                             <div className="down_arrow">
                                 <KeyboardArrowDownIcon onClick={openProfileModal} />

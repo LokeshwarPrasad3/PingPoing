@@ -10,40 +10,16 @@ export const getSenderEmail = (loggedUser, users) => {
 }
 
 // export const getSenderImage = (loggedUser, users) => {
-//     return users[0]._id === loggedUser._id ? users[1].pic : users[0].pic;
+//     return users[0]?._id === loggedUser?._id ? users[1]?.pic : users[0]?.pic;
 // }
 
 export const getSenderImage = (loggedUser, users) => {
-    if (!users || users.length === 0) {
-        // Handle the case where users array is undefined or empty
-        return "./Images/default_image.png"; // Show a default image
+    if (!users || users.length < 2) {
+        // Handle the case where users array is undefined or doesn't have at least two users
+        return "./Images/default_user.jpg"; // Show a default image
     }
 
-    if (users.length === 1) {
-        // Handle one-on-one chat where there's only one user in the array
-        const otherUser = users[0];
-
-        if (!otherUser || !otherUser.pic) {
-            // Handle the scenario where the other user or their pic is missing
-            return "./Images/default_user.png"; // Show a default user image
-        }
-
-        if (otherUser._id === loggedUser._id) {
-            return loggedUser.pic || "./Images/default_user.png"; // Show logged-in user's pic or default user image
-        } else {
-            return otherUser.pic; // Return the other user's pic
-        }
-    }
-
-    // Handle group chat or other scenarios
-    // const otherUser = users.find(user => user && user._id !== loggedUser._id);
-    const otherUser = users.find(user => {
-        if (user && user._id !== undefined) {
-            return user._id !== loggedUser._id;
-        }
-        return false; // Return false if user is undefined or user._id is undefined
-    });
-    
+    const otherUser = users.find(user => user._id !== loggedUser?._id);
 
     if (!otherUser || !otherUser.pic) {
         // Handle cases where the other user or their pic is missing
@@ -52,6 +28,48 @@ export const getSenderImage = (loggedUser, users) => {
 
     return otherUser.pic; // Return the other user's pic
 };
+
+
+
+// export const getSenderImage = (loggedUser, users) => {
+//     if (!users || users.length === 0) {
+//         // Handle the case where users array is undefined or empty
+//         return "./Images/default_user.jpg"; // Show a default image
+//     }
+
+//     if (users.length === 1) {
+//         // Handle one-on-one chat where there's only one user in the array
+//         const otherUser = users[0];
+
+//         if (!otherUser || !otherUser.pic) {
+//             // Handle the scenario where the other user or their pic is missing
+//             return "./Images/default_user.png"; // Show a default user image
+//         }
+
+//         if (otherUser._id === loggedUser._id) {
+//             return loggedUser.pic || "./Images/default_user.png"; // Show logged-in user's pic or default user image
+//         } else {
+//             return otherUser.pic; // Return the other user's pic
+//         }
+//     }
+
+//     // Handle group chat or other scenarios
+//     // const otherUser = users.find(user => user && user._id !== loggedUser._id);
+//     const otherUser = users.find(user => {
+//         if (user && user._id !== undefined) {
+//             return user._id !== loggedUser._id;
+//         }
+//         return false; // Return false if user is undefined or user._id is undefined
+//     });
+    
+
+//     if (!otherUser || !otherUser.pic) {
+//         // Handle cases where the other user or their pic is missing
+//         return "./Images/default_user.jpg"; // Show a default user image
+//     }
+
+//     return otherUser.pic; // Return the other user's pic
+// };
 
 
 

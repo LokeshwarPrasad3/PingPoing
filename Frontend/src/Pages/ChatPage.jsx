@@ -4,8 +4,12 @@ import '../CSS/style.css';
 import MyChats from '../components/Miscellaneous/MyChats';
 import ChatBox from '../components/Miscellaneous/ChatBox';
 import { ChatState } from '../Context/ChatProvider';
+import { useNavigate } from 'react-router-dom';
+
 
 const ChatPage = () => {
+    const navigate = useNavigate();
+
     // Getting from context api
     const { user } = ChatState();
 
@@ -24,6 +28,19 @@ const ChatPage = () => {
             messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
         }
     };
+
+    useEffect(() => {
+        // Check if the user is logged in by accessing user data from the context
+        if (!user) {
+            // If user is not logged in, check localStorage
+            const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            if (!userInfo) {
+                // If userInfo is also not available in localStorage, redirect to /auth
+                navigate("/auth");
+            }
+        }
+    }, [navigate, user]);
+    
 
     useEffect(() => {
         scrollToBottom(); // Initial scroll to the bottom when chat loads
@@ -49,7 +66,7 @@ const ChatPage = () => {
 
     return (
         <>
-            <Navbar setShowChat={setShowChat} showChat={showChat} />
+            <Navbar setShowChat={setShowChat} windowWidth={windowWidth} />
             <div className="communication_message_container font-signika flex items-center justify-center w-full min-h-full ">
                 {/* not show when showing chatsContent */}
                 {
@@ -73,6 +90,7 @@ const ChatPage = () => {
 
                         setShowChat={setShowChat}
                         showChat={showChat}
+                        windowWidth={windowWidth}
                     />
                 }
             </div>

@@ -59,7 +59,7 @@
 .communication_message_container,
 .all_person_list,
 .messages_container {
-  min-height: calc(100vh - 4rem);
+  min-height: calc(100vh - 5rem);
   overflow: hidden;
 }
 @media (max-width: 821px) {

@@ -2,7 +2,7 @@
 // import from react-router-dom
 import { Route, Routes } from "react-router-dom";
 // importing components
-import HomePage from './Pages/HomePage'
+import Authentication from './Pages/Authentication'
 import ChatPage from './Pages/ChatPage'
 import './CSS/style.css';
 
@@ -12,8 +12,8 @@ function App() {
     <>
       <Routes>
         {/* making router */}
-         <Route exact path="/" element={<HomePage />} />
-        <Route exact path="/chats" element={<ChatPage />} />
+        <Route exact path="/" element={<ChatPage />} />
+         <Route exact path="/auth" element={<Authentication />} />
       </Routes>
     </>
   );

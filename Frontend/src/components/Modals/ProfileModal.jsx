@@ -36,7 +36,7 @@ function ProfileModal({ isOpen, onClose }) {
     const handleLogout= () =>{
         localStorage.removeItem("userInfo");
         onClose();
-        navigate("/");
+        navigate("/auth");
     }
 
 

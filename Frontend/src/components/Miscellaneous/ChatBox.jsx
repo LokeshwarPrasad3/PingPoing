@@ -6,7 +6,7 @@ const ChatBox = (props) => {
 
     const { 
         fetchAgain, setFetchAgain
-        , setShowChat } = props;
+        , setShowChat,windowWidth } = props;
 
   
     return (
@@ -19,6 +19,7 @@ const ChatBox = (props) => {
                         fetchAgain,
                         setFetchAgain,
                         setShowChat, 
+                        windowWidth
                     }}
                 />
 

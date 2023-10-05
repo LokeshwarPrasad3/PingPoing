@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react'
 // we need component and css 
 import { ToastContainer, toast } from 'react-toastify';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 // circular progress
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -63,7 +64,7 @@ const Login = () => {
             setTimeout(() => {
                 setLoading(false);
                 // navigate to chat section successfully done
-                navigate('/chats');
+                navigate('/');
             }, 2000);
         } catch (error) {
             toast.error("Invalid User");
@@ -93,7 +94,12 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             type={showPass ? 'text' : 'password'} name="login_input_password" id="login_input_password" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Password' autoComplete="new-password" />
-                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
+                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">
+                        {showPass ?
+                         <VisibilityIcon /> 
+                         : <VisibilityOffIcon/>
+                         }
+                        </button>
                     </div>
                 </div>
                 {/* input button which is login */}
