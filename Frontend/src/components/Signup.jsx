@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { host } from '../config/api';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Signup = () => {
 
@@ -28,8 +30,6 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
 
 
-
-
     // when clicked to choose file for image then handle that
     const postDetail = (pic) => { // pics have all info of image (name,size,type)
         // when upload picture then load button
@@ -43,7 +43,6 @@ const Signup = () => {
         if ((pic.type === "image/jpeg") || (pic.type === "image/png")) {
 
             // we need data to send on cloudinary api using formData
-
             const data = new FormData();
 
             // FormData JS object used for data format when sending body in HTTP requests, 
@@ -63,14 +62,14 @@ const Signup = () => {
             })
                 .then((res) => res.json()) //data fetched
                 .then((data) => {
-                    // console.log(data) // actual data of response
-                    console.log(data.url.toString());
-                    console.log(data);
                     setPic(data.url.toString());
+                    console.log("Uploaded Image url : " + data.url.toString());
+                    // console.log(data);
                     setLoading(false);
+                    toast.success("Image Uploaded Successfully!");
                 })
                 .catch((err) => {
-                    console.log("Error during Fetching Pic data", err);
+                    console.log("Error during uploading Picture", err);
                     setLoading(false);
                 })
         } else {
@@ -98,14 +97,14 @@ const Signup = () => {
 
         // check all is valid  or not
         if (!name || !email || !password || !cpassword || !pic) {
-            toast.warn("Please Fill All Fields");
+            toast.warn("Please Fill All Fields!");
             setLoading(false);
             return;
         }
 
         // check password === cpassword
         if (password !== cpassword) {
-            toast.warn("Please Fill All Fields");
+            toast.warn("Password is not Matched!");
             setLoading(false);
             return;
         }
@@ -118,8 +117,8 @@ const Signup = () => {
                 },
             }
             const { data } = await axios.post(`${host}/api/user`, { name, email, password, pic }, config);
-            toast.success("Registration is successfull");
             // set in localStorage
+            toast.success("Registration is successfull");
             localStorage.setItem('userInfo', JSON.stringify(data));
             setLoading(false);
             // navigate to chat section successfully done
@@ -165,7 +164,12 @@ const Signup = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)} // set value when change
                             type={showPass ? 'text' : 'password'} name="create_input_password" id="create_input_password" className='py-1 px-3 w-full bg-gray-100' placeholder='Enter Password' autoComplete="new-password" />
-                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">{showPass ? 'Hide' : 'Show'}</button>
+                        <button tabIndex="-1" onClick={toggleShow} className="show_button bg-gray-200 py-1 px-2 rounded-md">
+                        {showPass ?
+                         <VisibilityIcon /> 
+                         : <VisibilityOffIcon/>
+                         }
+                        </button>
                     </div>
                 </div>
 

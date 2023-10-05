@@ -32,7 +32,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
 
             const { data } = await axios.get(`${host}/api/chat`, config);
             setChats(data);
-            console.log(data);
+            console.log("Your Chats : " + data);
         }
         catch (error) {
             toast.warn("Failed to load the chats");
@@ -44,9 +44,12 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
         // getting loggedUser data from localstorage
         setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
         fetchChats();
-        console.log(chats);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchAgain]); // need chats, fetchChats dependencies
+
+    // const getNotification = () =>{
+
+    // }
 
 
     return (
@@ -87,9 +90,9 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                                         key={index}
                                         onClick={() => {
                                             if (windowWidth <= 821) {
-                                                scrollToBottom();
                                                 setShowChat(true);
                                             }
+                                            scrollToBottom();
                                             setSelectedChat(chat);
                                         }}
                                         className="person_details cursor-pointer w-full text-gray-100 hover:text-slate-100 gap-3 rounded hover:bg-slate-500 flex custom-transition h-14 bg-slate-400 px-5 items-center"

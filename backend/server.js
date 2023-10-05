@@ -17,6 +17,7 @@ const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 // if user access unExisted path then show that 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const path = require('path');
 
 
 // connect to db call

@@ -166,6 +166,7 @@ const SingleChat = (props) => {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
+        console.log("Message received to receiver");
         if (!notification.includes(newMessageReceived)) {
           // Update the notification state
           setNotification((prevNotification) => [
@@ -304,7 +305,7 @@ const SingleChat = (props) => {
             )}
           </div>
           {/* messages adn send message box */}
-          <div className="overflow-y-auto bg-slate-600  flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2">
+          <div className={`overflow-y-auto bg-slate-600 ${selectedChat.isGroupChat?'':'px-3'} flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2`}>
             <div
               ref={chatContainerRef}
               className="messagesb_box_container bg-slate-600 overflow-x-auto min-h-[79vh] max-h-[80vh]"

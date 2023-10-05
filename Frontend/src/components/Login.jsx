@@ -69,7 +69,6 @@ const Login = () => {
             toast.error("Invalid User");
             setLoading(false);
         }
-
     }
 
 
@@ -109,12 +108,10 @@ const Login = () => {
                             </Box>
                             ) : ('Login')}
                     </button>
-                    <button className='bg-red-600 w-full py-[5px] rounded opacity-90 text-white text-xl hover:bg-red-700 text-opacity-90 ' >Get Guest User Credential</button>
+                    {/* <button className='bg-red-600 w-full py-[5px] rounded opacity-90 text-white text-xl hover:bg-red-700 text-opacity-90 ' >Get Guest User Credential</button> */}
                 </div>
                 {/* get guest user credentials */}
             </form>
-
-
             {/* the toastify alert is added here */}
             <ToastContainer />
 

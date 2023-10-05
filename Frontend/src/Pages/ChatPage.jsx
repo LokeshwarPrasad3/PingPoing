@@ -49,7 +49,7 @@ const ChatPage = () => {
 
     return (
         <>
-            <Navbar />
+            <Navbar setShowChat={setShowChat} showChat={showChat} />
             <div className="communication_message_container font-signika flex items-center justify-center w-full min-h-full ">
                 {/* not show when showing chatsContent */}
                 {
@@ -65,7 +65,7 @@ const ChatPage = () => {
                 {/* mesage person and all messages */}
                 {/* handle when mobile then clicked to chat then show chatBox */}
                 {
-                    ((windowWidth >= 821) || (windowWidth <= 821 && showChat)) &&
+                    ((windowWidth >= 821 ) || (windowWidth <= 821 )) &&
                     <ChatBox
 
                         fetchAgain={fetchAgain}

@@ -10,7 +10,7 @@ import ProfileModal from '../Modals/ProfileModal'; // Use uppercase 'P' in the i
 import { getSender } from '../../config/ChatLogics';
 import Badge from '@mui/material/Badge';
 
-const Navbar = () => {
+const Navbar = ({setShowChat}) => {
 
     // eslint-disable-next-line
     const [getUser, setGetUser] = useState({});
@@ -90,38 +90,49 @@ const Navbar = () => {
 
                     <div className="show_notifications absolute top-12 right-[8vw] border-[1px] bg-blue-200 rounded-md flex flex-col gap-[2px] justify-center items-start overflow-hidden max-w-[20rem]">
 
-                        {
-                            showNotification && (
+                        
 
-                                (!notification.length > 0) ? (
-                                    <div className="box_notification w-full font-overpass bg-blue-300 cursor-pointer shadow-sm shadow-gray-400 px-2 h-8 flex items-center">
-                                        <h1 className='text-black' >No New Notification</h1>
-                                    </div>
-                                ) : (
-                                    notification.map((notif) => {
-                                        return (
-                                            <React.Fragment key={notif._id} >
-                                                <div
-                                                    onClick={() => {
-                                                        setSelectedChat(notif.chat);
-                                                        setNotification(notification.filter((n) => n !== notif));
-                                                        setShowNotification(!showNotification);
-                                                    }}
-                                                    className="box_notification bg-blue-300 cursor-pointer hover:bg-blue-400 custom-transition  w-full font-overpass shadow-sm shadow-gray-400 px-2 h-8 flex items-center">
-                                                    <h1 className='text-black' >
-                                                        {
-                                                            notif.chat.isGroupChat ?
-                                                                `New Message in ${(notif.chat.chatName)}`
-                                                                : `New Message from ${getSender(user, notif.chat.users).substring(0, 15) }..`
-                                                        }
-                                                    </h1>
-                                                </div>
-                                            </React.Fragment>
-                                        )
-                                    })
-                                )
+                    {
+                        showNotification && (
+                            (!notification.length > 0) ? (
+                                <div className="box_notification w-full font-overpass bg-blue-300 cursor-pointer shadow-sm shadow-gray-400 px-2 h-8 flex items-center">
+                                    <h1 className='text-black'>No New Notification</h1>
+                                </div>
+                            ) : (
+                                notification.map((notif) => {
+                                    return (
+                                        <React.Fragment key={notif._id}>
+                                            <div
+                                                onClick={() => {
+                                                    setSelectedChat(notif.chat);
+
+                                                    // Filter out the clicked notification and related notifications based on chat ObjectId.
+                                                    const updatedNotifications = notification.filter(
+                                                        (n) => n.chat._id !== notif.chat._id
+                                                    );
+
+                                                    // Update the state to reflect the changes.
+                                                    setNotification(updatedNotifications);
+                                                    setShowNotification(false);
+                                                    setShowChat(true);
+                                                }}
+                                                className="box_notification bg-blue-300 cursor-pointer hover:bg-blue-400 custom-transition w-full font-overpass shadow-sm shadow-gray-400 px-2 h-8 flex items-center"
+                                            >
+                                                <h1 className='text-black'>
+                                                    {
+                                                        notif.chat.isGroupChat ?
+                                                            `New Message in ${(notif.chat.chatName)}`
+                                                            : `New Message from ${getSender(user, notif.chat.users).substring(0, 15)}..`
+                                                    }
+                                                </h1>
+                                            </div>
+                                        </React.Fragment>
+                                    );
+                                })
                             )
-                        }
+                        )
+                    }
+
                     </div>
 
 

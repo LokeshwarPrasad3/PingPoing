@@ -1,4 +1,4 @@
-// eslint-disable-next-line
+
 // import from react-router-dom
 import { Route, Routes } from "react-router-dom";
 // importing components

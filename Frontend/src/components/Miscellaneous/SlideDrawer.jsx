@@ -59,35 +59,43 @@ const SideDrawer = ({ onClose }) => {
 
   // click on list of users
   const accessChat = async (userId) => {
-    // loading till not getting data chat
-    setLoadingChat(true);
-
-    // sending headers data
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`
-      },
-    }
-
     try {
-      // show all chats
+      // Show loading indicator
+      setLoadingChat(true);
+  
+      // Prepare headers
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+  
+      // Fetch chat data from the server
       const { data } = await axios.post(`${host}/api/chat`, { userId }, config);
-
-      // if newlly comed chat then simply push to chats
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
-
+      console.log("data getted " + data);
+  
+      // Check if the chat is new and add it to the chats array
+      if (!chats.find((c) => c._id === data._id)) {
+        setChats([data, ...chats]);
+      }
+  
+      // Set the selected chat and indicate loading is complete
       setSelectedChat(data);
       setLoadingChat(false);
-      // close the drawer slider
+  
+      // Close the drawer or perform other actions
       onClose();
+  
+      // Log success message
+      console.log("Chat data fetched and processed successfully");
+    } catch (error) {
+      // Handle errors and display a toast message
+      console.error("Error fetching chats:", error);
+      toast.warn("Error fetching chats");
     }
-
-    catch (error) {
-      toast.warn("Error fetchig chats");
-    }
-
-  }
+  };
+  
 
 
   return (
@@ -132,13 +140,14 @@ const SideDrawer = ({ onClose }) => {
               (
                 searchResult?.map((user) => {
                   return (
-                    <>
+                    <React.Fragment 
+                    key={user._id}
+                    >
                       <UserListItem
-                        key={user._id}
                         user={user}
                         handleFunction={() => accessChat(user._id)}
                       />
-                    </>
+                    </React.Fragment>
                   )
                 })
               )
