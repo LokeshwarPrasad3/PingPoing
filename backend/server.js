@@ -31,10 +31,17 @@ app.use(express.json()); // to accept json data
 app.use(cors());
 
 
-// make first server
-// app.get('/', (req, res) => {
-//     res.send("API IS RUNNING");
-// })
+// ------------- PRODUCTION CODE ------------
+
+// Serve static files from the build directory
+app.use(express.static(path.join(__dirname, './frontend/build')));
+
+// Define a catch-all route that serves the index.html file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './frontend/build'));
+});
+
+// --------------------------------------------
 
 
 // WE ONLY MAKE END POINT IN SERVER.js and we elaborate in different section for readable code
@@ -63,6 +70,10 @@ app.use(notFound);
 
 //👉 if anyone cannot handled error then It helps centralize error handling in your application.
 app.use(errorHandler);
+
+
+
+
 
 
 const server = app.listen(PORT, () => { console.log(`Server is started on PORT : ${PORT}`); })

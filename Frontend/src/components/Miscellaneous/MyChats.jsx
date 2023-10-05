@@ -47,11 +47,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchAgain]); // need chats, fetchChats dependencies
 
-    // const getNotification = () =>{
-
-    // }
-
-
+ 
     return (
         <>
 
@@ -82,7 +78,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
 
                     {/* render chat particular users */}
                     {
-                        chats ? (
+                        chats.length>0 ? (
                             chats.map((chat, index) => {
 
                                 return (
