@@ -33,13 +33,13 @@ app.use(cors());
 
 // ------------- PRODUCTION CODE ------------
 
-// // Serve static files from the build directory
-// app.use(express.static(path.join(__dirname, './frontend/build')));
+// Serve static files from the build directory
+app.use(express.static(path.join(__dirname, './frontend/build')));
 
-// // Define a catch-all route that serves the index.html file
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, './frontend/build'));
-// });
+// Define a catch-all route that serves the index.html file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './frontend/build'));
+});
 
 // --------------------------------------------
 
