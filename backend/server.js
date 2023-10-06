@@ -34,12 +34,12 @@ app.use(cors());
 // ------------- PRODUCTION CODE ------------
 
 // Serve static files from the build directory
-app.use(express.static(path.join(__dirname, './frontend/build')));
+// app.use(express.static(path.join(__dirname, './frontend/build')));
 
-// Define a catch-all route that serves the index.html file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './frontend/build'));
-});
+// // Define a catch-all route that serves the index.html file
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, './frontend/build'));
+// });
 
 // --------------------------------------------
 
@@ -72,17 +72,13 @@ app.use(notFound);
 app.use(errorHandler);
 
 
-
-
-
-
 const server = app.listen(PORT, () => { console.log(`Server is started on PORT : ${PORT}`); })
 
 // Setup socket connection
 const io = require('socket.io')(server, {
     pingTimeout: 60000,//close connection if user not event
     cors: {
-        origin: "http://localhost:3000"
+        origin: "https://lokeshwar-chat-app.onrender.com"
     }
 });
 
