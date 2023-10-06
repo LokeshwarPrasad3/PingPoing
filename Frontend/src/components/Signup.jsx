@@ -62,7 +62,15 @@ const Signup = () => {
             })
                 .then((res) => res.json()) //data fetched
                 .then((data) => {
-                    setPic(data.url.toString());
+
+                    let picUrl = data.url.toString();
+                    // Check if the URL starts with 'http://'
+                    if (picUrl.startsWith('http://')) {
+                        // Replace 'http://' with 'https://'
+                        picUrl = picUrl.replace(/^http:\/\//i, 'https://');
+                    }
+
+                    setPic(picUrl);
                     console.log("Uploaded Image url : " + data.url.toString());
                     // console.log(data);
                     setLoading(false);

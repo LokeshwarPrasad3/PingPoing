@@ -308,7 +308,7 @@ const SingleChat = (props) => {
           <div className={`overflow-y-auto bg-slate-600 ${selectedChat.isGroupChat?'':'px-3'} flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2`}>
             <div
               ref={chatContainerRef}
-              className={`messagesb_box_container bg-slate-600 ${windowWidth<=821?'min-h-[73vh] max-h-[75vh]':'min-h-[75vh] max-h-[80vh]'} overflow-x-auto `}
+              className={`messagesb_box_container bg-slate-600 ${windowWidth<=821?'min-h-[70vh] max-h-[71vh]':'min-h-[75vh] max-h-[80vh]'} overflow-x-auto `}
             >
               {loading ? (
                 <div className="relative h-[80vh] flex justify-center items-center">

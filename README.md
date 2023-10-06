@@ -41,6 +41,12 @@ My Chat App is a real-time modernizes chat application. Users can create account
 - Ability to add new members to group chats.
 - User search by name or email.
 
+
+## Live Demo
+
+Check out the live demo of this project [here](https://lokeshwar-chat-app.onrender.com/).
+
+
 ## Getting Started
 
 To run the My Chat App locally, follow these steps:
