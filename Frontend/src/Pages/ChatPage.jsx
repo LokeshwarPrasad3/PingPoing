@@ -11,7 +11,7 @@ const ChatPage = () => {
     const navigate = useNavigate();
 
     // Getting from context api
-    const { user } = ChatState();
+    const { user, setUser } = ChatState();
 
     const [fetchAgain, setFetchAgain] = useState(false);
 
@@ -37,9 +37,13 @@ const ChatPage = () => {
             if (!userInfo) {
                 // If userInfo is also not available in localStorage, redirect to /auth
                 navigate("/auth");
+            } else {
+                // If userInfo is available in localStorage, set it in the context
+                setUser(userInfo);
             }
         }
-    }, [navigate, user]);
+    }, [navigate, user, setUser]);
+    
     
 
     useEffect(() => {

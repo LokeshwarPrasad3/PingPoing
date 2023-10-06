@@ -30,7 +30,6 @@ app.use(express.json()); // to accept json data
 // using cors  from prevent any error
 app.use(cors());
 
-
 // ------------- PRODUCTION CODE ------------
 
 // Serve static files from the build directory
@@ -78,6 +77,7 @@ const server = app.listen(PORT, () => { console.log(`Server is started on PORT :
 const io = require('socket.io')(server, {
     pingTimeout: 60000,//close connection if user not event
     cors: {
+        // origin: "http://localhost:3000"
         origin: "https://lokeshwar-chat-app.onrender.com"
     }
 });

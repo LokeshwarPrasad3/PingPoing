@@ -23,14 +23,15 @@ const HomePage = () => {
 
   // IF user is logged in then push to /chat route
   useEffect(() => {
-    // get logged user data from localStorage and setUser
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-    // if user logged in redirected to chat page
-    if (!userInfo) {
-      navigate("/auth");
+    if (userInfo) {
+      // Check if the current location is the "/auth" page
+      if (window.location.pathname === '/auth') {
+        navigate("/");
+      }
     }
-  }, [navigate]); // dependency navigate change then call
+  }, [navigate]);
+  
 
   return (
     <>
