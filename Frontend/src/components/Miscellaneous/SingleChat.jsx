@@ -257,7 +257,7 @@ const SingleChat = (props) => {
                 onClick={() => {
                   setShowChat(false);
                   setSelectedChat("");
-                  if (windowWidth<=821){
+                  if (windowWidth <= 821) {
                     setHideNavbar(false);
                   }
                 }}
@@ -312,11 +312,10 @@ const SingleChat = (props) => {
             )}
           </div>
           {/* messages adn send message box */}
-          <div className={`overflow-y-auto bg-slate-600 ${selectedChat.isGroupChat ? '' : 'px-3'} flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2`}>
+          <div className={`send_message_box overflow-y-auto bg-slate-600 ${selectedChat.isGroupChat ? '' : 'px-3'} flex text-gray-200 opacity-90 h-full flex-col justify-between gap-2`}>
             <div
               ref={chatContainerRef}
-              className={`messagesb_box_container bg-slate-600 min-h-[75vh] max-h-[80vh] overflow-x-auto `}
-            // className={`messagesb_box_container bg-slate-600 ${windowWidth<=821?'min-h-[70vh] max-h-[71vh]':'min-h-[75vh] max-h-[80vh]'} overflow-x-auto `}
+              className={`messagesb_box_container bg-slate-600 ${windowWidth <= 821 ? 'min-h-[70vh] max-h-[71vh]' : 'min-h-[75vh] max-h-[80vh]'} overflow-x-auto `}
             >
               {loading ? (
                 <div className="relative h-[80vh] flex justify-center items-center">
@@ -330,7 +329,7 @@ const SingleChat = (props) => {
               )}
             </div>
 
-            <div className="send_message_container flex justify-between h-fit pr-5 items-center gap-2 ">
+            <div className="send_message_container flex justify-between h-fit px-2 mb-2 items-center gap-1 ">
               {/* show typing indeicator */}
               {isTyping ? <Lottie options={defaultOptions} width={70} /> : ""}
               <input
@@ -348,7 +347,7 @@ const SingleChat = (props) => {
               <SendIcon
                 onClick={sendMessage}
                 style={{ fontSize: "2.1rem" }}
-                className="text-white bg-green-600 p-1 rounded-full hover:text-slate-100 custom-transition cursor-pointer "
+                className="text-white bg-green-600 p-1 rounded-lg hover:text-slate-100 custom-transition cursor-pointer "
               />
             </div>
           </div>
