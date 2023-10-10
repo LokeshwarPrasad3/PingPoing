@@ -10,6 +10,9 @@ import { useNavigate } from 'react-router-dom';
 const ChatPage = () => {
     const navigate = useNavigate();
 
+    // show hide navbar
+    const [hideNavbar, setHideNavbar] = useState(false);
+
     // Getting from context api
     const { user, setUser } = ChatState();
 
@@ -70,7 +73,7 @@ const ChatPage = () => {
 
     return (
         <>
-            <Navbar setShowChat={setShowChat} windowWidth={windowWidth} />
+            <Navbar setShowChat={setShowChat} windowWidth={windowWidth}  hideNavbar={hideNavbar} />
             <div className="communication_message_container font-signika flex items-center justify-center w-full min-h-full ">
                 {/* not show when showing chatsContent */}
                 {
@@ -94,6 +97,7 @@ const ChatPage = () => {
 
                         setShowChat={setShowChat}
                         showChat={showChat}
+                        setHideNavbar={setHideNavbar}
                         windowWidth={windowWidth}
                     />
                 }

@@ -53,7 +53,7 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
 
             {/* contact message list  */}
             <div className={`all_person_list font-overpass ${showChat ? 'hidden' : 'flex'} flex-col w-full min-h-[90vh] min-w-[25rem] max-w-[50rem] px-3 gap-1 border-[1px] border-blue-900 rounded-md `}>
-                <div className="heading_section flex items-center justify-between pt-5 px-9">
+                <div className="heading_section flex items-center justify-between py-3 px-9">
                     <h2 className="text-xl font-bold font-signika text-white">My Chats</h2>
 
                     <div className="close_button flex items-center justify-around gap-1 px-2 py-1 cursor-pointer bg-gray-300 rounded ">
@@ -66,11 +66,11 @@ const MyChats = ({ windowWidth, setShowChat, showChat, scrollToBottom, fetchAgai
                 </div>
 
                 {/* three filters connect group */}
-                <div className="person_filters flex justify-center gap-3 items-center py-2 h-16">
+                {/* <div className="person_filters flex justify-center gap-3 items-center py-2 h-16">
                     <button className='fav_button' >All</button>
                     <button className='fav_button' >Friends</button>
                     <button className='fav_button' >Groups</button>
-                </div>
+                </div> */}
 
                 {/* list of persons */}
                 <div

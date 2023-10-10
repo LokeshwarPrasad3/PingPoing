@@ -19,7 +19,7 @@ const ENDPOINT = host;
 var socket, selectedChatCompare;
 
 const SingleChat = (props) => {
-  const { fetchAgain, setFetchAgain, setShowChat, windowWidth } = props;
+  const { fetchAgain, setFetchAgain, showChat, setShowChat, windowWidth, setHideNavbar } = props;
 
   // for checking if user not type then dont show typing...
   const typingTimeoutRef = useRef(null);
@@ -151,11 +151,15 @@ const SingleChat = (props) => {
 
   // main useEffect : if clicked to chat then fetch all messaages
   useEffect(() => {
-    fetchMessages();
+    // when show chat then hide navbar
+    if (showChat && windowWidth <= 821) {
+      setHideNavbar(true);
+    }
 
+    fetchMessages();
     selectedChatCompare = selectedChat;
     // eslint-disable-next-line
-  }, [user,selectedChat]);
+  }, [user, selectedChat]);
 
   useEffect(() => {
     const handleNewMessage = (newMessageReceived) => {
@@ -253,6 +257,9 @@ const SingleChat = (props) => {
                 onClick={() => {
                   setShowChat(false);
                   setSelectedChat("");
+                  if (windowWidth<=821){
+                    setHideNavbar(false);
+                  }
                 }}
                 className="text-slate-100"
                 style={{
@@ -305,10 +312,11 @@ const SingleChat = (props) => {
             )}
           </div>
           {/* messages adn send message box */}
-          <div className={`overflow-y-auto bg-slate-600 ${selectedChat.isGroupChat?'':'px-3'} flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2`}>
+          <div className={`overflow-y-auto bg-slate-600 ${selectedChat.isGroupChat ? '' : 'px-3'} flex text-gray-200 opacity-90 h-full flex-col justify-center gap-2`}>
             <div
               ref={chatContainerRef}
-              className={`messagesb_box_container bg-slate-600 ${windowWidth<=821?'min-h-[70vh] max-h-[71vh]':'min-h-[75vh] max-h-[80vh]'} overflow-x-auto `}
+              className={`messagesb_box_container bg-slate-600 min-h-[75vh] max-h-[80vh] overflow-x-auto `}
+            // className={`messagesb_box_container bg-slate-600 ${windowWidth<=821?'min-h-[70vh] max-h-[71vh]':'min-h-[75vh] max-h-[80vh]'} overflow-x-auto `}
             >
               {loading ? (
                 <div className="relative h-[80vh] flex justify-center items-center">

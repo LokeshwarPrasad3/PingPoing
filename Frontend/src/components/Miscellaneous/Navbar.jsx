@@ -10,7 +10,7 @@ import ProfileModal from '../Modals/ProfileModal'; // Use uppercase 'P' in the i
 import { getSender } from '../../config/ChatLogics';
 import Badge from '@mui/material/Badge';
 
-const Navbar = ({setShowChat,windowWidth}) => {
+const Navbar = ({ setShowChat, windowWidth, hideNavbar }) => {
 
     // eslint-disable-next-line
     const [getUser, setGetUser] = useState({});
@@ -57,7 +57,7 @@ const Navbar = ({setShowChat,windowWidth}) => {
 
 
             {/* This is the container of the whole navbar */}
-            <nav className="h-[65px] navbar_container flex items-center justify-between px-5 py-2 bg-slate-200">
+            <nav className={`h-[65px] navbar_container ${hideNavbar?'hidden':'flex'} items-center justify-between px-5 py-2 bg-slate-200`}>
                 {/* Search box inside the navbar */}
                 <div className="search_box flex items-center justify-around cursor-pointer ">
                     <SearchIcon style={{ fontSize: '1.2rem' }} />
