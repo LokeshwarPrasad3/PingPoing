@@ -15,11 +15,11 @@
 }
 
 .send_message_box {
-  height: calc(100vh - 8rem);
+  height: calc(100vh - 9rem);
 }
 @media (max-width: 821px) {
   .send_message_box {
-    height: calc(100vh - 5rem);
+    height: calc(100vh - 8rem);
   }
 }
 
