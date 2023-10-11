@@ -15,7 +15,12 @@
 }
 
 .send_message_box {
-  height: calc(100vh-3.5rem);
+  height: calc(100vh - 8rem);
+}
+@media (max-width: 821px) {
+  .send_message_box {
+    height: calc(100vh - 5rem);
+  }
 }
 
 /* when 1000 scren then fix chat section names list */

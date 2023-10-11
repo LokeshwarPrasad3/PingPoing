@@ -252,7 +252,7 @@ const SingleChat = (props) => {
         <>
           {/* receiver details */}
           <div className="receiver_box flex items-center justify-between text-white h-14 bg-slate-400 py-2 ">
-            <div className="flex justify-between items-center px-5 gap-4">
+            <div className="flex justify-between items-center h-14 px-5 gap-4">
               <ArrowCircleLeftIcon
                 onClick={() => {
                   setShowChat(false);
@@ -312,10 +312,14 @@ const SingleChat = (props) => {
             )}
           </div>
           {/* messages adn send message box */}
-          <div className={`send_message_box overflow-y-auto bg-slate-600 ${selectedChat.isGroupChat ? '' : 'px-3'} flex text-gray-200 opacity-90 h-full flex-col justify-between gap-2`}>
+          <div className={`send_message_box  bg-slate-600 flex text-gray-200 opacity-90 h-full flex-col justify-between gap-2
+          ${windowWidth <= 821 ? 'message_box_mobile' : ''}
+          `}>
             <div
               ref={chatContainerRef}
-              className={`messagesb_box_container bg-slate-600 ${windowWidth <= 821 ? 'min-h-[70vh] max-h-[71vh]' : 'min-h-[75vh] max-h-[80vh]'} overflow-x-auto `}
+              className={`messagesb_box_container bg-slate-600 
+              ${windowWidth <= 821 ? 'chat_box_mobile' : 'chat_box_laptop'}
+              ${selectedChat.isGroupChat ? '' : 'px-3'}  overflow-y-auto `}
             >
               {loading ? (
                 <div className="relative h-[80vh] flex justify-center items-center">
@@ -329,27 +333,32 @@ const SingleChat = (props) => {
               )}
             </div>
 
-            <div className="send_message_container flex justify-between h-fit px-2 mb-2 items-center gap-1 ">
-              {/* show typing indeicator */}
-              {isTyping ? <Lottie options={defaultOptions} width={70} /> : ""}
-              <input
-                onKeyDown={handleKeyDown}
-                value={newMessage}
-                onChange={typingHandler}
-                className="w-full bg-slate-700 border-gray-500 px-2 py-2 border-[1px] rounded-xl  focus:outline-none placeholder:text-gray-200"
-                type="text"
-                name=""
-                id="input_message"
-                placeholder=" Enter Message"
-              />
-              {/* when enter then go send message */}
 
-              <SendIcon
-                onClick={sendMessage}
-                style={{ fontSize: "2.1rem" }}
-                className="text-white bg-green-600 p-1 rounded-lg hover:text-slate-100 custom-transition cursor-pointer "
-              />
-            </div>
+            {!loading ? (
+              <div className="send_message_container flex justify-between h-16 bg-slate-700 w-full px-5 items-center gap-1 ">
+                {/* show typing indeicator */}
+                {isTyping ? <Lottie options={defaultOptions} width={70} /> : ""}
+                <input
+                  onKeyDown={handleKeyDown}
+                  value={newMessage}
+                  onChange={typingHandler}
+                  className="w-full bg-slate-700 border-gray-500 px-2 py-2 border-[1px] rounded-xl  focus:outline-none placeholder:text-gray-200"
+                  type="text"
+                  name=""
+                  id="input_message"
+                  placeholder=" Enter Message"
+                />
+                {/* when enter then go send message */}
+
+                <SendIcon
+                  onClick={sendMessage}
+                  style={{ fontSize: "2.1rem" }}
+                  className="text-white bg-green-600 p-1 rounded-lg hover:text-slate-100 custom-transition cursor-pointer "
+                />
+              </div>
+            ) : ""}
+            
+
           </div>
         </>
       ) : (
