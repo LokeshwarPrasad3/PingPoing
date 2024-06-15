@@ -9,6 +9,7 @@ Welcome to My Chat App, a modernized real-time chat application that enhances co
   - [Individual and Group Chats](#individual-and-group-chats)
   - [Admin Features](#admin-features)
 - [Login Test Credentials](#login-test-credentials)
+- [Home Page Screenshot](#home-page-screenshot)
 - [Live Demo](#live-demo)
 - [Getting Started](#getting-started)
 - [Requirements](#requirements)
@@ -72,6 +73,10 @@ test@gmail.com
 `
 Password :
 `12345`
+
+## Home Page Screenshot
+![Home Page Screenshot](Frontend/public/Images/HomePageScreenshot.jpg)
+
 
 ## Live Demo
 
