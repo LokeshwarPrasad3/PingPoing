@@ -2,7 +2,9 @@
 const express = require('express');
 // dotenv give .env access need config
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({
+    path: ".env",
+});
 // getting port no from env file
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
