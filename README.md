@@ -17,13 +17,18 @@ Welcome to My Chat App, a modernized real-time chat application that enhances co
 
 ## Technologies Used
 
-![React](https://img.shields.io/badge/-React-blue?logo=react&logoColor=white)
-![React Material-UI](https://img.shields.io/badge/-Material_UI-0081CB?logo=material-ui&logoColor=white)
-![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/-Express.js-000000?logo=express&logoColor=white)
-![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?logo=mongodb&logoColor=white)
-![bcrypt](https://img.shields.io/badge/-bcrypt-BC6D24)
-![cors](https://img.shields.io/badge/-cors-FFA500)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=material-ui&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
+![bcrypt](https://img.shields.io/badge/bcrypt-%233DA639.svg?style=for-the-badge&logo=bcrypt&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Cloudinary-%233498DB.svg?style=for-the-badge&logo=cloudinary&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![dotenv](https://img.shields.io/badge/dotenv-%23000000.svg?style=for-the-badge&logo=dotenv&logoColor=white)
+![Toastify](https://img.shields.io/badge/react__toastify-%23575d5d.svg?style=for-the-badge&logo=react&logoColor=white)
+
 
 ## Features
 
@@ -53,30 +58,27 @@ Welcome to My Chat App, a modernized real-time chat application that enhances co
 - Ability to add new members to group chats.
 - User search by name or email.
 
-
 ## Login Test Credentials
 
 Use the following credentials to test the login functionality of My Chat App:
 
-### 1st User : 
+### 1st User :
+
 Email :
-`
-user@gmail.com
-`
+`user@gmail.com`
 Password :
 `12345`
 
-### 2nd User : 
+### 2nd User :
+
 Email :
-`
-test@gmail.com
-`
+`test@gmail.com`
 Password :
 `12345`
 
 ## Home Page Screenshot
-![Home Page Screenshot](Frontend/public/Images/HomePageScreenshot.jpg)
 
+![Home Page Screenshot](Frontend/public/Images/HomePageScreenshot.jpg)
 
 ## Live Demo
 
