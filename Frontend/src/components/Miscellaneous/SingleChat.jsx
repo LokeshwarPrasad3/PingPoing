@@ -317,7 +317,7 @@ const SingleChat = (props) => {
           `}>
             <div
               ref={chatContainerRef}
-              className={`messagesb_box_container bg-slate-600 
+              className={`messagesb_box_container bg-slate-600 px-5
               ${windowWidth <= 821 ? 'chat_box_mobile' : 'chat_box_laptop'}
               ${selectedChat.isGroupChat ? '' : 'px-3'}  overflow-y-auto `}
             >

@@ -74,13 +74,13 @@ app.use(errorHandler);
 
 
 const server = app.listen(PORT, () => { console.log(`Server is started on PORT : ${PORT}`); })
+const clientURL = process.env.clientURL;
 
 // Setup socket connection
 const io = require('socket.io')(server, {
     pingTimeout: 60000,//close connection if user not event
     cors: {
-        // origin: "http://localhost:3000"
-        origin: "https://lokeshwar-chat-app.onrender.com"
+        origin: "http://localhost:3000"
     }
 });
 

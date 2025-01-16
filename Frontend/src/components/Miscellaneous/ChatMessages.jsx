@@ -24,7 +24,7 @@ const ChatMessages = ({ chatMessages }) => {
 
                                     <div key={index} className={`message_box_right w-full flex ${message.sender === 'user' ? 'justify-end' : ''} my-2`}>
                                         <div className={`message bg-green-600 px-2 py-[1px] w-fit max-w-[60%] rounded-md rounded-${message.sender === 'user' ? 'tr' : 'tl'}-none`}>
-                                            <p className='message_name text-[1.2rem] text-gray-100'>
+                                            <p className='message_name text-[1rem] text-gray-100'>
                                                 {message.message}
                                             </p>
                                         </div>

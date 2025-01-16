@@ -43,17 +43,17 @@ const ChatMessages = ({ chatMessages }) => {
                             >
                                 {
                                    (selectedChat.isGroupChat &&   (user?.name !== chat?.sender?.name)) &&
-                                <img className={`w-6 h-6 ${selectedChat.isGroupChat ? '' : 'hidden'} rounded-full border-[1px] border-gray-800`} src={chat?.sender?.pic} alt="user" srcSet="" />
+                                <img className={`w-9 h-9 ${selectedChat.isGroupChat ? '' : 'hidden'} rounded-full border-[1px] border-gray-800`} src={chat?.sender?.pic} alt="user" srcSet="" />
                                 }
                                 <div
                                     className={`message flex ${user?.name === chat?.sender?.name ? 'bg-green-700' : 'bg-slate-800'} px-2 py-[1px] w-fit max-w-[60%] rounded-md rounded-tr-none`}>
-                                    <p className="message_name text-[1.2rem] text-gray-100">
+                                    <p className="message_name text-[1rem] text-gray-100">
                                         {chat.content}
                                     </p>
                                 </div>
                                 {
                                     (selectedChat.isGroupChat && (user?.name === chat?.sender?.name)) &&
-                                <img className={`w-6 h-6 ${selectedChat.isGroupChat ? '' : 'hidden'} rounded-full border-[1px] border-gray-800`} src={user.pic} alt="user" srcSet="" />
+                                <img className={`w-9 h-9 ${selectedChat.isGroupChat ? '' : 'hidden'} rounded-full border-[1px] border-gray-800`} src={user.pic} alt="user" srcSet="" />
                                 }
                             </div>
 
