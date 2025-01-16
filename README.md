@@ -1,6 +1,6 @@
-# My Chat App
+# My Chat App - PingPoing
 
-Welcome to My Chat App, a modernized real-time chat application that enhances communication with friends and groups. Users can create accounts securely, manage profiles with profile pictures, engage in real-time conversations with typing indicators and notifications, and seamlessly navigate through various features.
+Welcome to PingPoing, a modernized real-time chat application that enhances communication with friends and groups. Users can create accounts securely, manage profiles with profile pictures, engage in real-time conversations with typing indicators and notifications, and seamlessly navigate through various features.
 
 - [Technologies Used](#technologies-used)
 - [Features](#features)
@@ -60,7 +60,7 @@ Welcome to My Chat App, a modernized real-time chat application that enhances co
 
 ## Login Test Credentials
 
-Use the following credentials to test the login functionality of My Chat App:
+Use the following credentials to test the login functionality of PingPoing:
 
 ### 1st User :
 
@@ -86,7 +86,7 @@ Check out the live demo of this project [https://lokeshwar-chat-app.onrender.com
 
 ## Getting Started
 
-To run the My Chat App locally, follow these steps:
+To run the PingPoing locally, follow these steps:
 
 1. Clone the repository:
 
@@ -133,7 +133,7 @@ To run the My Chat App locally, follow these steps:
 
 ## Requirements
 
-Before running My Chat App locally, ensure Node.js is installed on your system. If Node.js is not installed, you can download it from [nodejs.org](https://nodejs.org/).
+Before running PingPoing locally, ensure Node.js is installed on your system. If Node.js is not installed, you can download it from [nodejs.org](https://nodejs.org/).
 
 ## Contributing
 
@@ -147,4 +147,4 @@ Contributions are welcome! Here are a few guidelines to get you started:
 
 Your feedback and contributions are highly appreciated. If you find this repository useful, please consider leaving a star ⭐.
 
-Thank you for using My Chat App! HAPPY CHATTING! 🚀
+Thank you for using PingPoing! HAPPY CHATTING! 🚀
