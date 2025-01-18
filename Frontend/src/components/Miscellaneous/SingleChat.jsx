@@ -11,7 +11,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { host } from "../../config/api";
 import typingAmimation from "../../Animation/chat-animation.json";
-import Lottie from "react-lottie";
+import { Lottie } from 'react-lottie-player';
 
 import io from "socket.io-client";
 // getting host which send request for socket
@@ -33,16 +33,6 @@ const SingleChat = (props) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-
-  // typig indicator options  (for react-lottie typing indicator)
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: typingAmimation, // path of json file
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   // Showing group profiles
   const [showProfile, setShowProfile] = useState(false);
@@ -337,7 +327,7 @@ const SingleChat = (props) => {
             {!loading ? (
               <div className="send_message_container flex justify-between h-16 bg-slate-700 w-full px-5 items-center gap-1 ">
                 {/* show typing indeicator */}
-                {isTyping ? <Lottie options={defaultOptions} width={70} /> : ""}
+                {isTyping ? <Lottie loop animationData={typingAmimation} play style={{ width: 70 }}  /> : ""}
                 <input
                   onKeyDown={handleKeyDown}
                   value={newMessage}
