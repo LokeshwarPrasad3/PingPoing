@@ -1,4 +1,4 @@
-# PingPoing - A Chat App 
+# PingPoing - A Chat App
 
 Welcome to PingPoing, a modernized real-time chat application that enhances communication with friends and groups. Users can create accounts securely, manage profiles with profile pictures, engage in real-time conversations with typing indicators and notifications, and seamlessly navigate through various features.
 
@@ -28,7 +28,6 @@ Welcome to PingPoing, a modernized real-time chat application that enhances comm
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![dotenv](https://img.shields.io/badge/dotenv-%23000000.svg?style=for-the-badge&logo=dotenv&logoColor=white)
 ![Toastify](https://img.shields.io/badge/react__toastify-%23575d5d.svg?style=for-the-badge&logo=react&logoColor=white)
-
 
 ## Features
 
@@ -82,7 +81,7 @@ Password :
 
 ## Live Demo
 
-Check out the live demo of this project [https://lokeshwar-chat-app.onrender.com](https://lokeshwar-chat-app.onrender.com/).
+Check out the live demo of this project [https://pingpoint.netlify.app](https://pingpoint.netlify.app/).
 
 ## Getting Started
 
