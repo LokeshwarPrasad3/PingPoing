@@ -81,8 +81,9 @@ const Navbar = ({ setShowChat, windowWidth, hideNavbar }) => {
                 </div>
 
                 {/* Heading of navbar section */}
-                <div className="heading_box flex items-center justify-center ">
-                    <h1 className="heading text-xl font-signika font-semibold opacity-80 ">Chat-App</h1>
+                <div className="heading_box flex items-center justify-center gap-2">
+                    <img src="../../assets/images/pingpoing-logo.png" alt="logo" className="h-8" />
+                    <h1 className="heading text-xl font-signika font-semibold opacity-80 ">PingPoing</h1>
                 </div>
 
                 {/* Edit profile and notification section */}

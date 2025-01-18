@@ -11,7 +11,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { host } from "../../config/api";
 import typingAmimation from "../../Animation/chat-animation.json";
-import { Lottie } from 'react-lottie-player';
+import Lottie from 'react-lottie-player';
 
 import io from "socket.io-client";
 // getting host which send request for socket
