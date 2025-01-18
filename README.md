@@ -1,4 +1,4 @@
-# My Chat App - PingPoing
+# PingPoing - A Chat App 
 
 Welcome to PingPoing, a modernized real-time chat application that enhances communication with friends and groups. Users can create accounts securely, manage profiles with profile pictures, engage in real-time conversations with typing indicators and notifications, and seamlessly navigate through various features.
 

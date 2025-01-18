@@ -80,7 +80,7 @@ const clientURL = process.env.clientURL;
 const io = require('socket.io')(server, {
     pingTimeout: 60000,//close connection if user not event
     cors: {
-        origin: "http://localhost:3000"
+        origin: clientURL
     }
 });
 
