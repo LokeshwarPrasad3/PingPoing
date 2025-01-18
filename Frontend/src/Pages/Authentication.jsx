@@ -35,27 +35,35 @@ const HomePage = () => {
 
   return (
     <>
-    {/* <Navbar/> */}
+      {/* <Navbar/> */}
 
       <div className="login_container font-signika flex flex-col justify-center items-center pt-7 gap-4  ">
-
         {/* this includes heading part */}
-        <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center ">
-          <h1 className=' text-3xl font-semibold  opacity-80 tracking-wide' >Your-Login-Page</h1>
+        <div className="login_heading bg-white rounded-md w-[35rem]  py-3 flex justify-center items-center gap-2">
+          <img src="https://i.ibb.co/4JgNzgS/pingpoing-logo.png" alt="logoName" className="h-6" />
+          <h1 className=" text-xl font-semibold  opacity-80 tracking-wide">
+            Welcome to PingPoing
+          </h1>
         </div>
-
 
         {/*  this includes login content part */}
         <div className="login_contenet bg-white rounded-sm  w-[35rem]  py-3 flex justify-center items-center flex-col ">
-          <Tabs value={value} onChange={handleChange} aria-label="icon label tabs example">
-            <Tab icon={<LockOpenIcon />} label="LOGIN-ACCOUNT"
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="icon label tabs example"
+          >
+            <Tab
+              icon={<LockOpenIcon />}
+              label="LOGIN-ACCOUNT"
               onClick={() => setToggleMode(true)}
             />
-            <Tab icon={<PersonPinIcon />} label="CREATE-ACCOUNT"
+            <Tab
+              icon={<PersonPinIcon />}
+              label="CREATE-ACCOUNT"
               onClick={() => setToggleMode(false)}
             />
           </Tabs>
-
 
           {/*👉 LOGIN FOROM of login user */}
           {
@@ -63,14 +71,12 @@ const HomePage = () => {
           }
           {/*👉 CREATE ACCOUNT FOROM */}
           {
-            (!toggleMode) && <Signup /> // if false then signup mode
+            !toggleMode && <Signup /> // if false then signup mode
           }
-
         </div>
       </div>
-
     </>
-  )
+  );
 }
 
 export default HomePage
